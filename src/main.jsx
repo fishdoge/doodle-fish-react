@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import Connect from "./connect.jsx";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -18,7 +19,13 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <TonConnectUIProvider
+            manifestUrl={
+                "https://tma-next-demo.vercel.app/tonconnect-manifest.json"
+            }
+        >
+            <RouterProvider router={router} />
+        </TonConnectUIProvider>
     </React.StrictMode>
 );
 
