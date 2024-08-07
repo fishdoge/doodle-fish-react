@@ -1,5 +1,6 @@
 import Spike from '../Spike'
 import constants from '../../constants'
+import Phaser from 'phaser'
 
 type SpikeGroupConfig = {
   x?: number
@@ -137,11 +138,14 @@ export default class SpikeGroup {
     const spike = this.spikes[index]
 
     if (this.isAnimation) {
-      this.scene.tweens.add({
+      const tween = this.scene.tweens.add({
         targets: spike,
-        scale: 1,
+        timeScale: 1,
         duration: 300,
       })
+
+      tween.play();
+      console.log('showSpikes')
     }
 
     spike.setVisible(true)
@@ -157,11 +161,14 @@ export default class SpikeGroup {
   private hideSpikes() {
     for (const spike of this.spikes) {
       if (this.isAnimation) {
-        this.scene.tweens.add({
+        const tween = this.scene.tweens.add({
           targets: spike,
-          scale: 0,
+          timeScale: 0,
           duration: 300,
-        })
+        })   
+
+        tween.play();
+        console.log('hideSpikes')
       }
 
       spike.setVisible(false)
