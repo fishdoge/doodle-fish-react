@@ -2,9 +2,14 @@ import express from 'express'
 import { createUserData, updateUserData } from './firesbase/userInit.js'
 import { viweUserInfoByid } from './firesbase/getUid.js'
 import { testBoard } from './firesbase/leaderBoard.js'
+import cors from 'cors';
+
 
 const app = express();
 app.use(express.json());
+app.use(cors({
+    origin:"*"
+}))
 
 app.get('/',(req,res)=>{
     res.send("api start");
@@ -24,8 +29,8 @@ app.post('/createuser', async(req, res) => {
 
 
 app.post('/update',async(req,res)=>{
-    const [id,bsetscore,token] = [req.body.id,req.body.bestScore,req.body.token]; 
-    
+    const [id,bsetscore,token] = [req.body.id,req.body.bestScore,req.body.token];
+
     console.log(id,bsetscore,token)
     await updateUserData(id,bsetscore,token);
 
