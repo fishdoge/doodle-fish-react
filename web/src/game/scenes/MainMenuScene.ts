@@ -24,7 +24,7 @@ export default class MainMenuScene extends Phaser.Scene {
     this.addResumeEvent()
     this.addChangeSkinEvent()
 
-    this.addButtonUi()
+    // this.addButtonUi()
   }
 
   private startGameEvent() {

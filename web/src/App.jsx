@@ -16,9 +16,12 @@ function App() {
 
     return (
         <div id="app">
-            <TonConnectButton />
-            <p>Address: {userFriendlyAddress}</p>
-            <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+            <div className="flex justufy-center">
+                <TonConnectButton />
+                <p>Address: {userFriendlyAddress}</p>
+                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+            </div>
+           
         </div>
     );
 }
