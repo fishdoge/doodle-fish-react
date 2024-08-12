@@ -16,10 +16,17 @@ function App() {
 
     return (
         <div id="app">
-            <div className="flex justufy-center">
-                <TonConnectButton />
-                <p>Address: {userFriendlyAddress}</p>
+            <div className="w-full ">
+                <div className="w-[400px] h-[90px] content-center bg-gray-200  justify-center items-center w-[512px] mx-auto">
+                    <div className="mt-2 ml-[60%]">
+                    <TonConnectButton />
+                    <p>Address: {userFriendlyAddress}</p>
+                    </div>
+                </div>
+                <div className="mt-0">
                 <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+                </div>
+               
             </div>
            
         </div>
