@@ -17,17 +17,20 @@ app.post("/createuser", async (req, res) => {
   const user_info = req.body;
 
   const [userAddress, userId, userScore, userToken] = [
-    user_info.address,
-    user_info.id,
+    user_info.address, // ton address
+    user_info.id, //? id
     user_info.bestScore,
-    user_info.token,
+    user_info.token, // token amount
   ];
 
-  console.log(userAddress, userId, userScore, userToken);
+  const userData = await createUserData(
+    userAddress,
+    userId,
+    userScore,
+    userToken
+  );
 
-  await createUserData(userAddress, userId, userScore, userToken);
-
-  res.send(`Create info success!`);
+  res.json(userData);
 });
 
 app.post("/update", async (req, res) => {
@@ -37,17 +40,15 @@ app.post("/update", async (req, res) => {
     req.body.token,
   ];
 
-  console.log(id, bsetscore, token);
   await updateUserData(id, bsetscore, token);
-
   res.send("data updat finish");
 });
 
 app.post("/finduser", async (req, res) => {
   const user_id = req.body.id;
-  const userUid = await viweUserInfoByid(user_id);
+  const user = await viweUserInfoByid(user_id);
 
-  res.send(userUid);
+  res.json(user);
 });
 
 app.get("/leaderboard", async (req, res) => {
@@ -56,9 +57,13 @@ app.get("/leaderboard", async (req, res) => {
   res.send(leaderBoard);
 });
 
-app.post("/transfer-jetton", async (req, res) => {
+app.post("/withdraw", async (req, res) => {
   try {
-    const { toAddress, amount } = req.body;
+    const user_id = req.body.id;
+
+    const { token, address: toAddress } = await viweUserInfoByid(user_id);
+
+    const amount = token.toString();
 
     await transferJetton(toAddress, amount, process.env.JETTON_MASTER_ADDRESS);
     const wallet = await getWallet();
