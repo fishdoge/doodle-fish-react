@@ -8,6 +8,7 @@ async function createUserData(userTonAddress, userId, score, token) {
     id: userId,
     bestScore: score,
     token: token,
+    invitee: [],
   };
 
   await addDoc(collection(database, "doodlePlayer"), userData);
@@ -16,18 +17,35 @@ async function createUserData(userTonAddress, userId, score, token) {
 }
 
 async function updateUserData(id, score, token) {
-  const uid = await viweUserInfoByid(id);
-  const docRef = doc(database, "doodlePlayer", uid);
-  await updateDoc(docRef, {
-    bestScore: score,
-    token: token,
-  })
-    .then(() => {
-      console.log("Document successfully updated!");
-    })
-    .catch((error) => {
-      console.error("Error updating document: ", error);
+  const { uid } = await viweUserInfoByid(id);
+
+  try {
+    const docRef = doc(database, "doodlePlayer", uid);
+    await updateDoc(docRef, {
+      bestScore: score,
+      token: token,
     });
+    console.log("Document successfully updated!");
+  } catch (error) {
+    console.error("Error updating document: ", error);
+  }
+}
+
+async function updateInvitee(id, newInvitee) {
+  const { uid, user } = await viweUserInfoByid(id);
+
+  console.log(user);
+
+  const docRef = doc(database, "doodlePlayer", uid);
+  let updatedInviteeArray = [];
+  if (user.invitee && Array.isArray(user.invitee)) {
+    updatedInviteeArray = [...user.invitee, newInvitee];
+  } else {
+    updatedInviteeArray = [newInvitee];
+  }
+  await updateDoc(docRef, {
+    invitee: updatedInviteeArray,
+  });
 }
 
 async function addRandomUsers(num) {
@@ -52,4 +70,4 @@ async function addRandomUsers(num) {
   }
 }
 
-export { createUserData, updateUserData };
+export { createUserData, updateUserData, updateInvitee };

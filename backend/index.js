@@ -1,5 +1,9 @@
 import express from "express";
-import { createUserData, updateUserData } from "./firesbase/userInit.js";
+import {
+  createUserData,
+  updateUserData,
+  updateInvitee,
+} from "./firesbase/userInit.js";
 import { viweUserInfoByid } from "./firesbase/getUid.js";
 import { testBoard } from "./firesbase/leaderBoard.js";
 import cors from "cors";
@@ -16,11 +20,12 @@ app.use(
 app.post("/createuser", async (req, res) => {
   const user_info = req.body;
 
-  const [userAddress, userId, userScore, userToken] = [
+  const [userAddress, userId, userScore, userToken, inviterId] = [
     user_info.address, // ton address
     user_info.id, //? id
     user_info.bestScore,
     user_info.token, // token amount
+    user_info.inviterId,
   ];
 
   const userData = await createUserData(
@@ -29,6 +34,8 @@ app.post("/createuser", async (req, res) => {
     userScore,
     userToken
   );
+
+  if (inviterId) await updateInvitee(inviterId, userId);
 
   res.json(userData);
 });
@@ -62,7 +69,6 @@ app.post("/withdraw", async (req, res) => {
     const user_id = req.body.id;
 
     const { token, address: toAddress } = await viweUserInfoByid(user_id);
-
     const amount = token.toString();
 
     await transferJetton(toAddress, amount, process.env.JETTON_MASTER_ADDRESS);
@@ -77,6 +83,13 @@ app.post("/withdraw", async (req, res) => {
     console.error("Error transferring Jetton:", error);
     res.status(500).json({ error: "Failed to transfer Jetton" });
   }
+});
+
+app.get("/generate-invite", async (req, res) => {
+  const { id } = req.body; // Get user ID from request body
+  const inviteLink = `${process.env.HOST}?start=${id}`; // Generate invite link for Telegram
+
+  res.json({ inviteLink }); // Send the invite link as a response
 });
 
 const PORT = process.env.PORT || 3002;
