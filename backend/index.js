@@ -51,7 +51,7 @@ app.post("/update", async (req, res) => {
   res.send("data updat finish");
 });
 
-app.post("/finduser", async (req, res) => {
+app.get("/finduser", async (req, res) => {
   const user_id = req.body.id;
   const user = await viweUserInfoByid(user_id);
 
@@ -68,11 +68,14 @@ app.post("/withdraw", async (req, res) => {
   try {
     const user_id = req.body.id;
 
-    const { token, address: toAddress } = await viweUserInfoByid(user_id);
-    const amount = token.toString();
+    const { user } = await viweUserInfoByid(user_id);
+    const toAddress = user.address;
+    const amount = user.token.toString();
 
     await transferJetton(toAddress, amount, process.env.JETTON_MASTER_ADDRESS);
     const wallet = await getWallet();
+
+    await updateUserData(user_id, user.bestScore, 0);
 
     res.json({
       fromAddress: wallet.address.toString(),
