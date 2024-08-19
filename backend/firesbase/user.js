@@ -1,6 +1,13 @@
 import { database } from "./config.js";
-import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
-import { viweUserInfoByid } from "./getUid.js";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 async function createUserData(userTonAddress, userId, score, token) {
   const userData = {
@@ -17,7 +24,7 @@ async function createUserData(userTonAddress, userId, score, token) {
 }
 
 async function updateUserData(id, score, token) {
-  const { uid } = await viweUserInfoByid(id);
+  const { uid } = await getUser(id);
 
   try {
     const docRef = doc(database, "doodlePlayer", uid);
@@ -32,7 +39,7 @@ async function updateUserData(id, score, token) {
 }
 
 async function updateInvitee(id, newInvitee) {
-  const { uid, user } = await viweUserInfoByid(id);
+  const { uid, user } = await getUser(id);
 
   const docRef = doc(database, "doodlePlayer", uid);
   let updatedInviteeArray = [];
@@ -46,4 +53,22 @@ async function updateInvitee(id, newInvitee) {
   });
 }
 
-export { createUserData, updateUserData, updateInvitee };
+async function getUser(id) {
+  const q = query(collection(database, "doodlePlayer"), where("id", "==", id));
+  const querySnapshot = await getDocs(q);
+  let user;
+  let uid;
+  if (!querySnapshot.empty) {
+    querySnapshot.forEach((doc) => {
+      console.log(`User UID: ${doc.id}`);
+      console.log(`User Data: `, doc.data());
+      user = doc.data();
+      uid = doc.id;
+    });
+  } else {
+    console.log("No matching documents.");
+  }
+  return { user, uid };
+}
+
+export { createUserData, updateUserData, updateInvitee, getUser };

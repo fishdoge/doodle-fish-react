@@ -3,8 +3,8 @@ import {
   createUserData,
   updateUserData,
   updateInvitee,
-} from "./firesbase/userInit.js";
-import { viweUserInfoByid } from "./firesbase/getUid.js";
+  getUser,
+} from "./firesbase/user.js";
 import { testBoard } from "./firesbase/leaderBoard.js";
 import cors from "cors";
 import { getWallet, transferJetton } from "./ton/index.js";
@@ -53,7 +53,7 @@ app.post("/update", async (req, res) => {
 
 app.get("/finduser", async (req, res) => {
   const user_id = req.body.id;
-  const user = await viweUserInfoByid(user_id);
+  const user = await getUser(user_id);
 
   res.json(user);
 });
@@ -68,7 +68,7 @@ app.post("/withdraw", async (req, res) => {
   try {
     const user_id = req.body.id;
 
-    const { user } = await viweUserInfoByid(user_id);
+    const { user } = await getUser(user_id);
     const toAddress = user.address;
     const amount = user.token.toString();
 
