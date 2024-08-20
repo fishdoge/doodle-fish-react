@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "fish",
+			"format": "RGBA8888",
+			"size": {
+				"w": 2003,
+				"h": 1579
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "fish_106f",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 144,
+						"h": 112
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 4,
+						"w": 144,
+						"h": 65
+					},
+					"frame": {
+						"x": 4,
+						"y": 4,
+						"w": 140,
+						"h": 68
+					}
+				}
+				
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7"
+	}
+}

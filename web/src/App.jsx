@@ -17,8 +17,8 @@ function App() {
     return (
         <div id="app">
             <div className="w-full ">
-                <div className="w-[400px] h-[90px] content-center bg-gray-200  justify-center items-center w-[512px] mx-auto">
-                    <div className="mt-2 ml-[60%]">
+                <div className="w-[400px] h-[80px] content-center bg-gray-200  justify-center items-center w-[512px] mx-auto">
+                    <div className="mt-1 ml-[60%]">
                     <TonConnectButton />
                     <p>Address: {userFriendlyAddress}</p>
                     </div>
