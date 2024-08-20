@@ -1,4 +1,4 @@
-import { database } from "./config.js";
+import { database } from "./config";
 import {
   collection,
   query,
@@ -9,7 +9,20 @@ import {
   doc,
 } from "firebase/firestore";
 
-async function createUserData(userTonAddress, userId, score, token) {
+type User = {
+  address: string;
+  id: number;
+  token: number;
+  bestScore: number;
+  invitee: number[];
+};
+
+async function createUserData(
+  userTonAddress: string,
+  userId: number,
+  score: number,
+  token: number
+) {
   const userData = {
     address: userTonAddress,
     id: userId,
@@ -19,11 +32,10 @@ async function createUserData(userTonAddress, userId, score, token) {
   };
 
   await addDoc(collection(database, "doodlePlayer"), userData);
-  console.log("user data, ", userData);
   return userData;
 }
 
-async function updateUserData(id, score, token) {
+async function updateUserData(id: number, score: number, token: number) {
   const { uid } = await getUser(id);
 
   try {
@@ -38,7 +50,7 @@ async function updateUserData(id, score, token) {
   }
 }
 
-async function updateInvitee(id, newInvitee) {
+async function updateInvitee(id: number, newInvitee: number) {
   const { uid, user } = await getUser(id);
 
   const docRef = doc(database, "doodlePlayer", uid);
@@ -48,27 +60,22 @@ async function updateInvitee(id, newInvitee) {
   } else {
     updatedInviteeArray = [newInvitee];
   }
+
   await updateDoc(docRef, {
     invitee: updatedInviteeArray,
   });
 }
 
-async function getUser(id) {
+async function getUser(id: number) {
   const q = query(collection(database, "doodlePlayer"), where("id", "==", id));
   const querySnapshot = await getDocs(q);
-  let user;
-  let uid;
+
   if (!querySnapshot.empty) {
-    querySnapshot.forEach((doc) => {
-      console.log(`User UID: ${doc.id}`);
-      console.log(`User Data: `, doc.data());
-      user = doc.data();
-      uid = doc.id;
-    });
+    const doc = querySnapshot.docs[0]; // Get the first document
+    return { user: doc.data() as User, uid: doc.id };
   } else {
-    console.log("No matching documents.");
+    throw new Error("User not found!");
   }
-  return { user, uid };
 }
 
 export { createUserData, updateUserData, updateInvitee, getUser };

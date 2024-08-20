@@ -4,10 +4,10 @@ import {
   updateUserData,
   updateInvitee,
   getUser,
-} from "./firesbase/user.js";
-import { testBoard } from "./firesbase/leaderBoard.js";
+} from "./firesbase/user";
+import { testBoard } from "./firesbase/leaderBoard";
 import cors from "cors";
-import { getWallet, transferJetton } from "./ton/index.js";
+import { getWallet, transferJetton } from "./ton/index";
 
 const app = express();
 app.use(express.json());
@@ -70,11 +70,14 @@ app.post("/withdraw", async (req, res) => {
 
     const { user } = await getUser(user_id);
     const toAddress = user.address;
-    const amount = user.token.toString();
+    const amount = user.token;
 
-    await transferJetton(toAddress, amount, process.env.JETTON_MASTER_ADDRESS);
+    await transferJetton(
+      toAddress,
+      amount,
+      process.env.JETTON_MASTER_ADDRESS as string
+    );
     const wallet = await getWallet();
-
     await updateUserData(user_id, user.bestScore, 0);
 
     res.json({
