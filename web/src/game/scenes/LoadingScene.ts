@@ -73,7 +73,7 @@ export default class LoadingScene extends Phaser.Scene {
   private loadResources() {
     this.load.atlas('ui', 'spritesheets/ui.png', 'spritesheets/ui.json')
 
-    this.load.atlas('fish', 'spritesheets/fish.png', 'spritesheets/fish.json')
+    this.load.atlas('fish', 'spritesheets/fish.png','spritesheets/newfish.json')
 
     this.load.atlas(
       'particle',

@@ -16,9 +16,19 @@ function App() {
 
     return (
         <div id="app">
-            <TonConnectButton />
-            <p>Address: {userFriendlyAddress}</p>
-            <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+            <div className="w-full ">
+                <div className="w-[400px] h-[80px] content-center bg-gray-200  justify-center items-center w-[512px] mx-auto">
+                    <div className="mt-1 ml-[60%]">
+                    <TonConnectButton />
+                    <p>Address: {userFriendlyAddress}</p>
+                    </div>
+                </div>
+                <div className="mt-0">
+                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+                </div>
+               
+            </div>
+           
         </div>
     );
 }

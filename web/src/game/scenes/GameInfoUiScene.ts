@@ -49,7 +49,7 @@ export default class GameInfoUiScene extends Phaser.Scene {
       'changedata-bestScore',
       () => {
         const bestScore = this.localStorageData.get('bestScore')
-        const text = (i18next.t('Best score') + ' ' + bestScore).toUpperCase()
+        const text = 'Best score : ' + bestScore
         this.bestScoreText.setText(text)
       },
       this
@@ -60,8 +60,7 @@ export default class GameInfoUiScene extends Phaser.Scene {
       () => {
         const gamesPlayed = this.localStorageData.get('gamesPlayed')
         const text = (
-          i18next.t('Games played') +
-          ' ' +
+         'Games played : ' +
           gamesPlayed
         ).toUpperCase()
         this.gamesPlayedText.setText(text)
@@ -113,7 +112,7 @@ export default class GameInfoUiScene extends Phaser.Scene {
     const { width, height } = this.cameras.main
 
     const bestScore = this.localStorageData.get('bestScore') as number
-    const text = (i18next.t('Best score') + ' ' + bestScore).toUpperCase()
+    const text = ('Best score : ' + bestScore).toUpperCase()
 
     this.bestScoreText = this.add
       .text(width / 2, height - 400, text, {
@@ -128,7 +127,7 @@ export default class GameInfoUiScene extends Phaser.Scene {
     const { width, height } = this.cameras.main
 
     const gamesPlayed = this.localStorageData.get('gamesPlayed') as number
-    const text = (i18next.t('Games played') + ' ' + gamesPlayed).toUpperCase()
+    const text = ('Games played : ' + gamesPlayed).toUpperCase()
 
     this.gamesPlayedText = this.add
       .text(width / 2, height - 300, text, {
