@@ -12,7 +12,6 @@ import {
 
 type User = {
   address: string;
-  id: number;
   token: number;
   bestScore: number;
   invitee: number[];
@@ -21,7 +20,7 @@ type User = {
 async function createUserData(
   userTonAddress: string,
   score: number,
-  token: number,
+  token: number
 ) {
   const isExist = await isUserExist({ address: userTonAddress });
   if (isExist) throw new Error("User is already existed");
