@@ -4,6 +4,7 @@ import {
   updateUserData,
   updateInvitee,
   getUser,
+  getUserByAddress,
 } from "./firesbase/user";
 import { testBoard } from "./firesbase/leaderBoard";
 import cors from "cors";
@@ -17,45 +18,44 @@ app.use(
   })
 );
 
-app.post("/createuser", async (req, res) => {
-  const user_info = req.body;
+app.post("/user", async (req, res) => {
+  const { address, token, inviterId } = req.body;
 
-  const [userAddress, userId, userScore, userToken, inviterId] = [
-    user_info.address, // ton address
-    user_info.id, //? id
-    user_info.bestScore,
-    user_info.token, // token amount
-    user_info.inviterId,
-  ];
+  try {
+    if (inviterId) await getUser(inviterId);
 
-  const userData = await createUserData(
-    userAddress,
-    userId,
-    userScore,
-    userToken
-  );
+    const user = await createUserData(address, 0, token);
+    if (inviterId) await updateInvitee(user.uid, inviterId);
 
-  if (inviterId) await updateInvitee(inviterId, userId);
-
-  res.json(userData);
+    return res.json(user);
+  } catch (error) {
+    return res.status(404).json({ message: `${error}` });
+  }
 });
 
-app.post("/update", async (req, res) => {
-  const [id, bsetscore, token] = [
-    req.body.id,
-    req.body.bestScore,
-    req.body.token,
-  ];
+app.put("/user", async (req, res) => {
+  const { id, bestScore, token } = req.body;
 
-  await updateUserData(id, bsetscore, token);
-  res.send("data updat finish");
+  const user = await updateUserData(id, bestScore, token);
+  return res.send(user);
 });
 
-app.get("/finduser", async (req, res) => {
-  const user_id = req.body.id;
-  const user = await getUser(user_id);
+app.get("/user", async (req, res) => {
+  const { id, address } = req.body;
 
-  res.json(user);
+  try {
+    if (id) {
+      const user = await getUser(id);
+      return res.json(user);
+    } else if (address) {
+      const user = await getUserByAddress(address);
+      return res.json(user);
+    } else {
+      return res.status(400).json({ message: "id or address is incorrect" });
+    }
+  } catch (error) {
+    return res.status(404).json({ message: `${error}` });
+  }
 });
 
 app.get("/leaderboard", async (req, res) => {
@@ -64,13 +64,15 @@ app.get("/leaderboard", async (req, res) => {
   res.send(leaderBoard);
 });
 
-app.post("/withdraw", async (req, res) => {
+app.post("/user/withdraw", async (req, res) => {
   try {
-    const user_id = req.body.id;
+    const { id: uid } = req.body;
 
-    const { user } = await getUser(user_id);
+    const { user } = await getUser(uid);
     const toAddress = user.address;
     const amount = user.token;
+
+    if (amount === 0) return res.status(404).json({ message: "Token is 0" });
 
     await transferJetton(
       toAddress,
@@ -78,7 +80,7 @@ app.post("/withdraw", async (req, res) => {
       process.env.JETTON_MASTER_ADDRESS as string
     );
     const wallet = await getWallet();
-    await updateUserData(user_id, user.bestScore, 0);
+    await updateUserData(uid, user.bestScore, 0);
 
     res.json({
       fromAddress: wallet.address.toString(),
@@ -91,7 +93,7 @@ app.post("/withdraw", async (req, res) => {
   }
 });
 
-app.get("/generate-invite", async (req, res) => {
+app.get("/user/generate-invite", async (req, res) => {
   const { id } = req.body; // Get user ID from request body
   const inviteLink = `${process.env.HOST}?start=${id}`; // Generate invite link for Telegram
 

@@ -3,6 +3,7 @@ import {
   collection,
   query,
   where,
+  getDoc,
   getDocs,
   addDoc,
   updateDoc,
@@ -19,23 +20,24 @@ type User = {
 
 async function createUserData(
   userTonAddress: string,
-  userId: number,
   score: number,
-  token: number
+  token: number,
 ) {
+  const isExist = await isUserExist({ address: userTonAddress });
+  if (isExist) throw new Error("User is already existed");
+
   const userData = {
     address: userTonAddress,
-    id: userId,
     bestScore: score,
     token: token,
     invitee: [],
   };
 
-  await addDoc(collection(database, "doodlePlayer"), userData);
-  return userData;
+  const ref = await addDoc(collection(database, "doodlePlayer"), userData);
+  return { uid: ref.id, data: userData };
 }
 
-async function updateUserData(id: number, score: number, token: number) {
+async function updateUserData(id: string, score: number, token: number) {
   const { uid } = await getUser(id);
 
   try {
@@ -44,13 +46,14 @@ async function updateUserData(id: number, score: number, token: number) {
       bestScore: score,
       token: token,
     });
-    console.log("Document successfully updated!");
+
+    return await getUser(id);
   } catch (error) {
     console.error("Error updating document: ", error);
   }
 }
 
-async function updateInvitee(id: number, newInvitee: number) {
+async function updateInvitee(id: string, newInvitee: number) {
   const { uid, user } = await getUser(id);
 
   const docRef = doc(database, "doodlePlayer", uid);
@@ -66,16 +69,61 @@ async function updateInvitee(id: number, newInvitee: number) {
   });
 }
 
-async function getUser(id: number) {
-  const q = query(collection(database, "doodlePlayer"), where("id", "==", id));
-  const querySnapshot = await getDocs(q);
+async function getUserByAddress(address: string) {
+  const isExist = await isUserExist({ address });
 
-  if (!querySnapshot.empty) {
-    const doc = querySnapshot.docs[0]; // Get the first document
-    return { user: doc.data() as User, uid: doc.id };
+  if (isExist) {
+    const usersRef = collection(database, "doodlePlayer");
+    const q = query(usersRef, where("address", "==", address));
+    const querySnapshot = await getDocs(q);
+    const docSnap = querySnapshot.docs[0];
+    return { user: docSnap.data() as User, uid: docSnap.id };
   } else {
     throw new Error("User not found!");
   }
 }
 
-export { createUserData, updateUserData, updateInvitee, getUser };
+type UserUnique = {
+  id?: string;
+  address?: string;
+};
+
+async function isUserExist(input: UserUnique) {
+  const { id, address } = input;
+
+  if (id) {
+    const docRef = doc(database, "doodlePlayer", id);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.exists();
+  } else if (address) {
+    const usersRef = collection(database, "doodlePlayer");
+    const q = query(usersRef, where("address", "==", address));
+    const querySnapshot = await getDocs(q);
+
+    return !querySnapshot.empty;
+  } else {
+    throw new Error("Id or address is undefined or incorrectly");
+  }
+}
+
+async function getUser(id: string) {
+  const isExist = await isUserExist({ id });
+
+  if (isExist) {
+    const docRef = doc(database, "doodlePlayer", id);
+    const docSnap = await getDoc(docRef);
+    return { user: docSnap.data() as User, uid: docSnap.id };
+  } else {
+    throw new Error("User not found!");
+  }
+}
+
+export {
+  createUserData,
+  updateUserData,
+  updateInvitee,
+  getUser,
+  getUserByAddress,
+  isUserExist,
+};
