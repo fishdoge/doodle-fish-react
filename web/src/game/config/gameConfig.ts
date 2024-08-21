@@ -10,9 +10,9 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   parent: 'game-container',
   backgroundColor: constants.COLORS.DEFAULT.BACKGROUND,
   scale: {
-    mode: Phaser.Scale.FIT,
+    mode: Phaser.Scale.NONE,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    zoom: constants.SCALE,
+    zoom: 0.3,
     width: constants.WIDTH,
     height: constants.HEIGHT,
   },
