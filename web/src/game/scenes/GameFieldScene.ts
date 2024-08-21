@@ -192,37 +192,6 @@ export default class GameFieldScene extends Phaser.Scene {
       orientation: 'vertical',
       isAnimation: true,
     })
-
-    this.spikeGroupTop = new SpikeGroup(this, {
-      x: constants.SPIKE.WIDTH / 7,
-      y: wallHeight / 4 + constants.SPIKE.HEIGHT / 2,
-      count: 7,
-      label: 'spike',
-      color: 0xcc_cc_cc,
-      alpha: 1,
-      angle: 180,
-      space: 4,
-      orientation: 'horizontal',
-    })
-
-    this.spikeGroupBottom = new SpikeGroup(this, {
-      x: constants.SPIKE.WIDTH / 7,
-      y: height - wallHeight - constants.SPIKE.HEIGHT / 5,
-      count: 7,
-      label: 'spike',
-      color: 0xcc_cc_cc,
-      alpha: 1,
-      angle: 0,
-      space: 4,
-      orientation: 'horizontal',
-    })
-
-    this.spikes.push(
-      this.spikeGroupLeft,
-      this.spikeGroupRight,
-      this.spikeGroupTop,
-      this.spikeGroupBottom
-    )
   }
 
   private addCollisionStartEvent() {
