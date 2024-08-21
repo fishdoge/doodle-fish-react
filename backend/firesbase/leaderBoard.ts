@@ -6,12 +6,14 @@ type LeaderBoardData = {
   bestScore: number;
 };
 
-export async function testBoard() {
+export async function getBoard() {
   const leaderBoard: LeaderBoardData[] = [];
 
   const usersRef = collection(database, "doodlePlayer");
-  const q = query(usersRef, orderBy("bestScore"));
+  const q = query(usersRef, orderBy("bestScore", "desc"));
   const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) console.log("Empty!!");
 
   querySnapshot.forEach((doc) => {
     const data = {
@@ -19,14 +21,10 @@ export async function testBoard() {
       bestScore: doc.data().bestScore as number,
     };
 
+    console.log(data);
+
     leaderBoard.push(data);
-    //console.log(doc.id, " => ", doc.data().bestScore);
   });
 
-  const newdata = [];
-
-  for (let a = leaderBoard.length - 1; a > 0; a--) {
-    newdata.push(leaderBoard[a]);
-  }
-  return newdata;
+  return leaderBoard;
 }
