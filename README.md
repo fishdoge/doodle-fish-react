@@ -1,3 +1,3 @@
-# reade me
+# Reade me
 
 Doodle fish game
