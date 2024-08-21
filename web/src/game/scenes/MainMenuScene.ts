@@ -28,9 +28,9 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   private startGameEvent() {
-    this.playPanel.on(
-      'pointerdown',
-      () => {
+    const bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 + 200, 'startBtn').setInteractive();
+    bg.once('pointerup', function () {
+
         this.scene.pause()
         this.scene.setVisible(false)
 
@@ -38,9 +38,8 @@ export default class MainMenuScene extends Phaser.Scene {
         this.scene.setVisible(false, constants.SCENES.GAME_INFO_UI)
 
         this.scene.launch(constants.SCENES.GAME_FIELD)
-      },
-      this
-    )
+
+    }, this);
   }
 
   private addResumeEvent() {
