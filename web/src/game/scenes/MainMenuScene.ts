@@ -84,8 +84,8 @@ export default class MainMenuScene extends Phaser.Scene {
     const selectFish = localStorageData.get('selectFish') as string
 
     this.playerSkin = this.add
-      .image(width / 2, height / 2, 'fish', selectFish)
-      .setScale(1.3)
+      .image(width / 2, height / 2, 'player')
+      .setScale(1)
 
     this.add.tween({
       targets: this.playerSkin,

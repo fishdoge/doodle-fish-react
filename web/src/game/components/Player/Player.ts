@@ -13,7 +13,7 @@ export default class Player extends Actor {
     private deathSprite?: Phaser.Physics.Matter.Sprite;
 
     constructor(scene: Phaser.Scene, x: number, y: number, frameName: string) {
-        super(scene, x, y, "fish", frameName);
+        super(scene, x, y, "player");
 
         this.frameName = frameName;
 
@@ -22,7 +22,7 @@ export default class Player extends Actor {
             y: -18,
         };
 
-        this.setScale(1.3);
+        this.setScale(1);
 
         this.setRectangle(150, 100, {
             chamfer: { radius: 50 },
@@ -112,7 +112,7 @@ export default class Player extends Actor {
     }
 
     public changeSkin(newSkin: string) {
-        this.frameName = newSkin;
+        this.frameName = "newSkin";
         //this.particlesEmitter.setFrame('particle_' + newSkin.slice(0, -1))
     }
 

@@ -85,6 +85,7 @@ export default class LoadingScene extends Phaser.Scene {
 
     this.load.image('fish_death', 'sprites/fish_death.png')
     this.load.image('gift', 'sprites/gift.png')
+    this.load.image('player', 'spritesheets/newfish.png')
 
     this.load.audioSprite('sfx', 'sfx/sfxSprite.json', 'sfx/sfxSprite.mp3')
   }
