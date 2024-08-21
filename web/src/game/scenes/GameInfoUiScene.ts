@@ -97,12 +97,12 @@ export default class GameInfoUiScene extends Phaser.Scene {
   }
 
   private addGameTitle() {
-    const { width } = this.cameras.main
+    const { width, height } = this.cameras.main
 
     this.gameTitle = this.add
-      .text(width / 2, 250, 'Doodle FISH', {
+      .text(width / 2, height / 2 + 100, 'Doodle FISH', {
         fontFamily: constants.FONT.FAMILY,
-        fontSize: '112px',
+        fontSize: '60px',
         color: constants.COLORS.DEFAULT.SPIKE,
       })
       .setOrigin(0.5, 0.5)

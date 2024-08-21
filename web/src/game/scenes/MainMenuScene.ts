@@ -13,7 +13,7 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   create() {
-    this.addTapToJump()
+    // this.addTapToJump()
     this.addPlayerSkin()
     this.addInfoUi()
 
@@ -28,7 +28,7 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   private startGameEvent() {
-    const bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 + 200, 'startBtn').setInteractive();
+    const bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 + 300, 'startBtn').setInteractive();
     bg.once('pointerup', function () {
 
         this.scene.pause()

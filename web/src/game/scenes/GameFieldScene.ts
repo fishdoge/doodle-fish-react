@@ -32,7 +32,7 @@ export default class GameFieldScene extends Phaser.Scene {
     const { width, height } = this.cameras.main
 
     this.matter.world.setBounds(0, 0, width, height)
-    this.add.image(0, 0, 'BG').setOrigin(0, 0).setScale(1.2, 1);
+    this.add.image(-10, 0, 'BG').setScale(1.1, 1).setOrigin(0, 0);
 
     this.addScoreText()
 
