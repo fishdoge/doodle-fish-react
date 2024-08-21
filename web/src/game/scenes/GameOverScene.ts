@@ -24,7 +24,7 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   create() {
-    this.addBackground()
+    // this.addBackground()
     this.addBackgroundScore()
     this.addScore()
     this.startMainMenuEvent()

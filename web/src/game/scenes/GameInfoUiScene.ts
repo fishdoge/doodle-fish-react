@@ -71,7 +71,7 @@ export default class GameInfoUiScene extends Phaser.Scene {
     this.localStorageData.events.on(
       'changedata-roe',
       () => {
-        this.roeText.setText(String(this.localStorageData.get('roe')))
+        this.roeText.setText("+" + String(this.localStorageData.get('roe')))
       },
       this
     )
@@ -143,10 +143,10 @@ export default class GameInfoUiScene extends Phaser.Scene {
 
     const roe = this.localStorageData.get('roe') as number
 
-    this.add.image(width / 2 - 50, height - 500, 'roe', 'roe_1')
+    this.add.image(width / 2 + 100, height - 500, 'roe', 'roe_1')
 
     this.roeText = this.add
-      .text(width / 2, height - 500, String(roe), {
+      .text(width / 2 - 100, height - 500, "+" + String(roe), {
         fontFamily: constants.FONT.FAMILY,
         fontSize: '72px',
         color: '#FC4100',
