@@ -63,7 +63,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(
             };
         }, [currentActiveScene, ref]);
 
-        return <div id="game-container" style={{ position: "absolute" }}></div>;
+        return <div id="game-container" className="border-2 rounded-md border-black"></div>;
     }
 );
 
