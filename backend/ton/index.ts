@@ -19,7 +19,7 @@ export const client = new TonClient({
 });
 
 export async function getKeyPair() {
-  const fromMnemonic = process.env.MNEMONIC;
+  const fromMnemonic = process.env.MNEMONIC as string;
   return await mnemonicToPrivateKey(fromMnemonic.split(" "));
 }
 
@@ -34,16 +34,29 @@ export async function getWallet() {
   return wallet;
 }
 
-export async function getUserJettonWalletAddress(
-  userAddress,
-  jettonMasterAddress
+export async function transferJetton(
+  toAddress: string,
+  amount: number,
+  masterJettonAddress: string
 ) {
-  const userAddressCell = beginCell()
-    .storeAddress(Address.parse(userAddress))
-    .endCell();
+  const { hash, signedTransaction } = await signTransferTxCell(
+    Address.parse(toAddress),
+    amount,
+    Address.parse(masterJettonAddress)
+  );
+
+  console.log(hash);
+  await client.sendFile(signedTransaction);
+}
+
+async function getUserJettonWalletAddress(
+  userAddress: Address,
+  jettonMasterAddress: Address
+) {
+  const userAddressCell = beginCell().storeAddress(userAddress).endCell();
 
   const response = await client.runMethod(
-    Address.parse(jettonMasterAddress),
+    jettonMasterAddress,
     "get_wallet_address",
     [{ type: "slice", cell: userAddressCell }]
   );
@@ -51,13 +64,17 @@ export async function getUserJettonWalletAddress(
   return response.stack.readAddress();
 }
 
-async function signTransferTxCell(toAddress, amount, masterJettonAddress) {
+async function signTransferTxCell(
+  toAddress: Address,
+  amount: number,
+  masterJettonAddress: Address
+) {
   const wallet = await getWallet();
   const keyPair = await getKeyPair();
   const walletContract = client.open(wallet);
   const seqno = await walletContract.getSeqno();
   const SENDER_JETTON_WALLET = await getUserJettonWalletAddress(
-    wallet.address.toString(),
+    wallet.address,
     masterJettonAddress
   );
 
@@ -65,8 +82,8 @@ async function signTransferTxCell(toAddress, amount, masterJettonAddress) {
     .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer
     .storeUint(0, 64) // query id
     .storeCoins(amount) // jetton amount, amount * 10^9
-    .storeAddress(Address.parse(toAddress))
-    .storeAddress(Address.parse(toAddress)) // response destination
+    .storeAddress(toAddress)
+    .storeAddress(toAddress) // response destination
     .storeBit(0) // no custom payload
     .storeCoins(0) // forward amount - if > 0, will send notification message
     .storeBit(0) // we store forwardPayload as a reference, set 1 and uncomment next line for have a comment
@@ -102,15 +119,4 @@ async function signTransferTxCell(toAddress, amount, masterJettonAddress) {
   const hash = externalMessageCell.hash().toString("hex");
 
   return { hash, signedTransaction };
-}
-
-export async function transferJetton(toAddress, amount, masterJettonAddress) {
-  const { hash, signedTransaction } = await signTransferTxCell(
-    toAddress,
-    amount,
-    masterJettonAddress
-  );
-
-  console.log(hash);
-  await client.sendFile(signedTransaction);
 }
