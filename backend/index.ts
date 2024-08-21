@@ -8,9 +8,10 @@ import {
 } from "./firesbase/user";
 import { getBoard } from "./firesbase/leaderBoard";
 import cors from "cors";
-import { getWallet, transferJetton } from "./ton/index";
+import { getWallet, transferJetton, client } from "./ton/index";
 import { serve, setup } from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
+import { Address } from "@ton/core";
 
 const app = express();
 app.use(express.json());
@@ -425,12 +426,86 @@ app.post("/user/withdraw", async (req, res) => {
  *                 error:
  *                   type: string
  */
-
 app.get("/user/generate-invite", async (req, res) => {
   const { id } = req.query; // Get user ID from request body
   const inviteLink = `${process.env.HOST}?start=${id}`; // Generate invite link for Telegram
 
   res.json({ inviteLink }); // Send the invite link as a response
+});
+
+/**
+ * @swagger
+ * /user/balance:
+ *   get:
+ *     summary: Get user balance
+ *     tags:
+ *       - User
+ *     description: Retrieves the balance of a user based on their TON address.
+ *     parameters:
+ *       - in: query
+ *         name: address
+ *         required: true
+ *         description: The TON address of the user
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user balance
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 address:
+ *                   type: string
+ *                 balance:
+ *                   type: number
+ *                 units:
+ *                   type: string
+ *       400:
+ *         description: Bad request, missing or invalid parameters
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+
+app.get("/user/balance", async (req, res) => {
+  try {
+    const { address } = req.query;
+
+    // Validate the address
+    if (!Address.isFriendly(address as string)) {
+      return res.status(400).json({ error: "Invalid TON address" });
+    }
+
+    // Query the balance
+    const balance = await client.getBalance(Address.parse(address as string));
+
+    // Convert balance from nanotons to TON
+    const balanceInTon = balance.toString();
+
+    res.json({
+      address: address,
+      balance: balanceInTon,
+      units: "TON",
+    });
+  } catch (error) {
+    console.error("Error querying balance:", error);
+    res.status(500).json({ error: "Failed to query balance" });
+  }
 });
 
 app.use("/api-docs", serve, setup(swaggerSpec));
