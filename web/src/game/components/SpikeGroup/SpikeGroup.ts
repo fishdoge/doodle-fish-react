@@ -65,7 +65,7 @@ export default class SpikeGroup {
         width: spikeWidth,
         height: spikeHeight,
         label,
-        color,
+        color: 0xa3a3a3,
         alpha,
       })
 

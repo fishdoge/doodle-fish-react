@@ -13,7 +13,7 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   create() {
-    this.addTapToJump()
+    // this.addTapToJump()
     this.addPlayerSkin()
     this.addInfoUi()
 
@@ -28,9 +28,9 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   private startGameEvent() {
-    this.playPanel.on(
-      'pointerdown',
-      () => {
+    const bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 + 300, 'startBtn').setInteractive();
+    bg.once('pointerup', function () {
+
         this.scene.pause()
         this.scene.setVisible(false)
 
@@ -38,9 +38,8 @@ export default class MainMenuScene extends Phaser.Scene {
         this.scene.setVisible(false, constants.SCENES.GAME_INFO_UI)
 
         this.scene.launch(constants.SCENES.GAME_FIELD)
-      },
-      this
-    )
+
+    }, this);
   }
 
   private addResumeEvent() {
@@ -84,8 +83,8 @@ export default class MainMenuScene extends Phaser.Scene {
     const selectFish = localStorageData.get('selectFish') as string
 
     this.playerSkin = this.add
-      .image(width / 2, height / 2, 'fish', selectFish)
-      .setScale(1.3)
+      .image(width / 2, height / 2, 'player')
+      .setScale(1)
 
     this.add.tween({
       targets: this.playerSkin,

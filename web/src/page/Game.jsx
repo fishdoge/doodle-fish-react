@@ -15,9 +15,8 @@ function Game() {
 
 
     return (
-        <div className="w-full h-[70%]">
+
             <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
-        </div>
     );
 }
 

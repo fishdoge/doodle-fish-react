@@ -81,10 +81,13 @@ export default class LoadingScene extends Phaser.Scene {
       'spritesheets/particle.json'
     )
 
-    this.load.atlas('roe', 'spritesheets/roe.png', 'spritesheets/roe.json')
-
+    // this.load.atlas('roe', 'spritesheets/roe.png', 'spritesheets/roe.json')
+    this.load.image('roe', 'sprites/egg.png')
     this.load.image('fish_death', 'sprites/fish_death.png')
     this.load.image('gift', 'sprites/gift.png')
+    this.load.image('player', 'spritesheets/newfish.png')
+    this.load.image('BG', 'sprites/background.png')
+    this.load.image('startBtn', 'sprites/startBtn.png')
 
     this.load.audioSprite('sfx', 'sfx/sfxSprite.json', 'sfx/sfxSprite.mp3')
   }

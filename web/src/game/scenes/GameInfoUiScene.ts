@@ -71,7 +71,7 @@ export default class GameInfoUiScene extends Phaser.Scene {
     this.localStorageData.events.on(
       'changedata-roe',
       () => {
-        this.roeText.setText(String(this.localStorageData.get('roe')))
+        this.roeText.setText("+" + String(this.localStorageData.get('roe')))
       },
       this
     )
@@ -97,12 +97,12 @@ export default class GameInfoUiScene extends Phaser.Scene {
   }
 
   private addGameTitle() {
-    const { width } = this.cameras.main
+    const { width, height } = this.cameras.main
 
     this.gameTitle = this.add
-      .text(width / 2, 250, 'Doodle FISH', {
+      .text(width / 2, height / 2 + 100, 'Doodle FISH', {
         fontFamily: constants.FONT.FAMILY,
-        fontSize: '112px',
+        fontSize: '60px',
         color: constants.COLORS.DEFAULT.SPIKE,
       })
       .setOrigin(0.5, 0.5)
@@ -143,10 +143,10 @@ export default class GameInfoUiScene extends Phaser.Scene {
 
     const roe = this.localStorageData.get('roe') as number
 
-    this.add.image(width / 2 - 50, height - 500, 'roe', 'roe_1')
+    this.add.image(width / 2 + 100, height - 500, 'roe', 'roe_1')
 
     this.roeText = this.add
-      .text(width / 2, height - 500, String(roe), {
+      .text(width / 2 - 100, height - 500, "+" + String(roe), {
         fontFamily: constants.FONT.FAMILY,
         fontSize: '72px',
         color: '#FC4100',
