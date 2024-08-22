@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PhaserGame } from "../game/PhaserGame";
 import { TonConnectButton } from "@tonconnect/ui-react";
 import {
@@ -9,18 +9,25 @@ import {
 import { useTonConnectModal } from "@tonconnect/ui-react";
 // import { TonClient } from "ton";
 import { Link } from "react-router-dom";
+import useStore from "../data/store"; // Update with the correct path to your Zustand store
+
 import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3000";
 
 import Game from "./Game";
 // import TonIcon from '../assets/tonIcon.svg';
 function Home() {
     //  References to the PhaserGame component (game and scene are exposed)
-    const phaserRef = useRef();
+    // const phaserRef = useRef();
     const userFriendlyAddress = useTonAddress();
+    const [userId, setUserId] = useState(null);
+    const [inviteUrl, setInviteUrl] = useState("");
     const wallet = useTonWallet();
     const [tonConnectUI, setOptions] = useTonConnectUI();
     const { state, open, close } = useTonConnectModal();
     const rawAddress = useTonAddress(false);
+    const { uid, inviteLink, setUid, setInviteLink } = useStore();
+
     console.log("tonConnectUI", tonConnectUI);
     console.log(state, open, close);
     // Event emitted from the PhaserGame component
@@ -47,11 +54,55 @@ function Home() {
         return `${start}...${end}`;
     };
 
-    console.log("wallet", wallet);
+    const createUserAndGenerateInvite = async (walletAddress) => {
+        try {
+            const retrievalUser = await axios.get("/user", {
+                params: {
+                    address: walletAddress,
+                },
+            });
+
+            if (retrievalUser.data.uid) {
+                setUid(retrievalUser.data.uid);
+
+                // Step 2: Generate Invite URL (assuming it's based on the user ID)
+                const getUserInviteId = await axios.get(
+                    `/user/generate-invite?id=${retrievalUser.data.uid}`,
+                );
+
+                setInviteLink(getUserInviteId.data.inviteLink);
+            } else {
+                // Step 1: Create User
+                const createUserResponse = await axios.post("/user", {
+                    address: "0x0",
+                    token: "0", // default score
+                    inviterId: "", // default invite
+                });
+
+                const { uid } = createUserResponse.data;
+                setUid(uid);
+
+                // Step 2: Generate Invite URL (assuming it's based on the user ID)
+                const getUserInviteId = await axios.get(
+                    `/user/generate-invite?id=${uid}`,
+                );
+
+                setInviteLink(getUserInviteId.data.inviteLink);
+            }
+            console.log("userIdss", userId);
+        } catch (error) {
+            console.error("Error creating user or generating invite: ", error);
+        }
+    };
 
     useEffect(() => {
         // Query the balance
         console.log("userFriendlyAddress", userFriendlyAddress);
+
+        if (userFriendlyAddress) {
+            createUserAndGenerateInvite(userFriendlyAddress);
+        }
+
         async function fetchUserBalance() {
             try {
                 const response = await axios.get("/user/balance", {
@@ -70,6 +121,7 @@ function Home() {
                 throw error;
             }
         }
+
         fetchUserBalance();
     }, [userFriendlyAddress]);
 
@@ -77,15 +129,18 @@ function Home() {
         await tonConnectUI.disconnect();
     }
 
+    console.log("userId", userId);
+    console.log("inviteUrl", inviteUrl);
+
     return (
         <div
             id="home"
-            className="bg-[#C3F1F5] h-full flex flex-col justify-center items-center py-10 relative"
+            className="bg-[#C3F1F5] h-full flex flex-col justify-center items-center pt-5 pb-10 relative"
         >
             <div className="h-20 w-full flex justify-center">
                 {wallet && (
                     <div className="w-full justify-around flex">
-                        <div className="h-12 border-black border-2  bg-white rounded-3xl w-[40%] flex justify-center items-center gap-2 gochi-hand-regular">
+                        <div className="h-10 border-black border-2  bg-white rounded-3xl w-[40%] flex justify-center items-center gap-2 gochi-hand-regular">
                             <img
                                 src="icons/balance.svg"
                                 alt=""
@@ -96,7 +151,7 @@ function Home() {
                         </div>
                         <div
                             onClick={disConnect}
-                            className="h-12 border-black border-2  bg-white rounded-3xl w-[40%] flex justify-center items-center gap-2 gochi-hand-regular text-xl"
+                            className="h-10 border-black border-2  bg-white rounded-3xl w-[40%] flex justify-center items-center gap-2 gochi-hand-regular text-xl"
                         >
                             <img
                                 src="icons/tonIcon.svg"
@@ -245,7 +300,7 @@ function Home() {
                     />
                 </div>
             ) : (
-                <div className="h-auto w-full flex flex-col justify-center items-center gap-2 relative">
+                <div className="h-auto w-full flex flex-col justify-center items-center gap-1 relative">
                     <p className="gochi-hand-regular">Doodles Fish Lab ©</p>
                     <div className="w-full flex justify-center items-center gap-8">
                         <div className="h-10 w-10 border-black border-2 border-b-8 bg-white rounded-lg flex justify-center items-center gap-2">
@@ -293,15 +348,15 @@ function Home() {
                         src="assets/seaweed2-1.svg"
                         className="absolute -bottom-10 left-5"
                         alt=""
-                        width={80}
-                        height={80}
+                        width={50}
+                        height={50}
                     />
                     <img
                         src="assets/seaweed2-2.svg"
                         className="absolute -bottom-10 right-0"
                         alt=""
-                        width={80}
-                        height={80}
+                        width={50}
+                        height={50}
                     />
                 </div>
             )}
