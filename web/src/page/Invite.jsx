@@ -21,7 +21,7 @@ function Invite() {
             <div className="h-[77%] flex flex-col justify-start relative pt-2 gap-5">
                 <div className="w-full h-40 flex flex-col justify-center items-center border border-black rounded-md bg-[#9DE7EF] gap-5 gochi-hand-regular">
                     <div className="w-[20%] flex justify-center items-center ">
-                        Https://t.me/doodlesfish_bot?star=er_38u47843
+                        {inviteLink}
                     </div>
                     <div className="h-12 w-[60%] border-black border-2 border-b-8 bg-white rounded-md  flex justify-center items-center gap-2 cursor-pointer">
                         <CopyToClipboard

@@ -6,6 +6,30 @@ axios.defaults.baseURL = "http://localhost:3000";
 function Rank() {
     const [rank, setRank] = useState([]);
 
+    const formatAddress = (address) => {
+        // Ensure the address has at least 8 characters
+        if (address.length <= 8) {
+            return address;
+        }
+
+        const start = address.slice(0, 4); // First four characters
+        const end = address.slice(-4); // Last four characters
+
+        return `${start}...${end}`;
+    };
+
+    const formatEightAddress = (address) => {
+        // Ensure the address has at least 8 characters
+        if (address.length <= 20) {
+            return address;
+        }
+
+        const start = address.slice(0, 8); // First four characters
+        const end = address.slice(-8); // Last four characters
+
+        return `${start}...${end}`;
+    };
+
     useEffect(() => {
         async function fetchRank() {
             const getUserRanking = await axios.get(`/leaderboard`);
@@ -17,6 +41,28 @@ function Rank() {
 
         fetchRank();
     }, []);
+
+    const positions = [
+        { top: "4.6rem", left: "16", width: "40", height: "8" },
+        { top: "8rem", left: "-4", width: "40", height: "8" },
+        { top: "9.3rem", right: "-5", width: "40", height: "10" },
+        {
+            top: "16.5rem",
+            left: "24",
+            width: "40",
+            height: "14",
+            extraClass: "ruda-regular",
+        },
+        {
+            top: "20.8rem",
+            left: "24",
+            width: "40",
+            height: "14",
+            extraClass: "ruda-regular",
+        },
+        { top: "24.8rem", left: "24", width: "40", height: "14" },
+        { top: "28.8rem", left: "24", width: "40", height: "14" },
+    ];
 
     return (
         <div
@@ -72,70 +118,126 @@ function Rank() {
                     width={280}
                     height={280}
                 />
-                <div className="absolute top-[4.6rem] left-16 p-2 w-40 h-8">
-                    <div className="w-full flex flex-col justify-center items-center gap-1">
-                        {/* <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div> */}
-                        <div className="text-[0.5rem]">8d3Z......2870</div>
-                        <div className="text-[0.5rem] flex justify-start">
-                            59 points
-                        </div>
-                    </div>
-                </div>
-                <div className="absolute top-[8rem] -left-4 p-2 w-40 h-10">
-                    <div className="w-full flex flex-col justify-center items-center gap-1">
-                        {/* <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div> */}
-                        <div className="text-[0.5rem]">8d3d......287s</div>
-                        <div className="text-[0.5rem] flex justify-start">
-                            59 points
-                        </div>
-                    </div>
-                </div>
-                <div className="absolute top-[9.3rem] -right-5 p-2 w-40 h-10">
-                    <div className="w-full flex flex-col justify-start items-center gap-1">
-                        {/* <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div> */}
-                        <div className="text-[0.5rem]">8d3d......287s</div>
-                        <div className="text-[0.5rem] flex justify-start">
-                            59 points
-                        </div>
-                    </div>
-                </div>
 
-                <div className="absolute top-[16.5rem] left-24 p-2 w-40 h-14">
-                    <div className="w-full flex flex-col justify-center items-center gap-2">
-                        {/* <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div> */}
-                        <div className="text-xs">8d3Zd83......2870d83</div>
-                        <div className="text-xs flex justify-start">
-                            59 points
+                {rank.length > 0 && (
+                    <>
+                        <div className="absolute top-[4.6rem] left-16 p-2 w-40 h-8">
+                            <div className="w-full flex flex-col justify-center items-center gap-1">
+                                <div className="text-[0.5rem]">
+                                    {formatAddress(rank[0].uid)}
+                                </div>
+                                <div className="text-[0.5rem] flex justify-start">
+                                    {rank[0].bestScore} points
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="absolute top-[20.8rem] left-24 p-2 w-40 h-14">
-                    <div className="w-full flex flex-col justify-center items-center gap-2">
-                        {/* <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div> */}
-                        <div className="text-xs">8d3Zd83......2870d83</div>
-                        <div className="text-xs flex justify-start">
-                            59 points
+                        <div className="absolute top-[8rem] -left-4 p-2 w-40 h-8">
+                            <div className="w-full flex flex-col justify-center items-center gap-1">
+                                <div className="text-[0.5rem]">
+                                    {formatAddress(rank[1].uid)}
+                                </div>
+                                <div className="text-[0.5rem] flex justify-start">
+                                    {rank[1].bestScore} points
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="absolute top-[24.8rem] left-24 p-2 w-40 h-14">
-                    <div className="w-full flex flex-col justify-center items-center gap-2">
-                        {/* <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div> */}
-                        <div className="text-xs">8d3Zd83......2870d83</div>
-                        <div className="text-xs flex justify-start">
-                            59 points
+                        <div className="absolute top-[9.3rem] -right-5 p-2 w-40 h-10">
+                            <div className="w-full flex flex-col justify-start items-center gap-1">
+                                <div className="text-[0.5rem]">
+                                    {formatAddress(rank[2].uid)}
+                                </div>
+                                <div className="text-[0.5rem] flex justify-start">
+                                    {rank[2].bestScore} points
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="absolute top-[28.8rem] left-24 p-2 w-40 h-14">
-                    <div className="w-full flex flex-col justify-center items-center gap-2">
-                        {/* <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div> */}
-                        <div className="text-xs">8d3Zd83......2870d83</div>
-                        <div className="text-xs flex justify-start">
-                            59 points
+                    </>
+                )}
+
+                {rank.length > 0 && (
+                    <>
+                        <div className="absolute top-[16.5rem] left-24 p-2 w-40 h-14 ruda-regular">
+                            <div className="w-full flex flex-col justify-center items-center gap-2">
+                                <div className="text-xs font-bold w-full flex justify-start">
+                                    {formatAddress(rank[3].uid)}
+                                </div>
+                                <div className="text-xs w-full flex justify-between">
+                                    <div>{rank[3].bestScore} points</div>
+                                    <div className="flex gap-1 items-center">
+                                        <img
+                                            src="assets/point.svg"
+                                            className=""
+                                            alt=""
+                                            width={15}
+                                            height={15}
+                                        />
+                                        <div>{rank[3].bestScore} points</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <div className="absolute top-[20.8rem] left-24 p-2 w-40 h-14 ruda-regular">
+                            <div className="w-full flex flex-col justify-center items-center gap-2">
+                                <div className="text-xs font-bold w-full flex justify-start">
+                                    {formatAddress(rank[4].uid)}
+                                </div>
+                                <div className="text-xs w-full flex justify-between">
+                                    <div>{rank[4].bestScore} points</div>
+                                    <div className="flex gap-1 items-center">
+                                        <img
+                                            src="assets/point.svg"
+                                            className=""
+                                            alt=""
+                                            width={15}
+                                            height={15}
+                                        />
+                                        <div>{rank[4].bestScore} points</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* <div className="absolute top-[24.8rem] left-24 p-2 w-40 h-14">
+                            <div className="w-full flex flex-col justify-center items-center gap-2">
+                                <div className="text-xs font-bold w-full flex justify-start">
+                                    {formatAddress(rank[5].uid)}
+                                </div>
+                                <div className="text-xs w-full flex justify-between">
+                                    <div>{rank[5].bestScore} points</div>
+                                    <div className="flex gap-1 items-center">
+                                        <img
+                                            src="assets/point.svg"
+                                            className=""
+                                            alt=""
+                                            width={15}
+                                            height={15}
+                                        />
+                                        <div>{rank[5].bestScore} points</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="absolute top-[28.8rem] left-24 p-2 w-40 h-14">
+                            <div className="w-full flex flex-col justify-center items-center gap-2">
+                                <div className="text-xs font-bold w-full flex justify-start">
+                                    {formatAddress(rank[6]?.uid)}
+                                </div>
+                                <div className="text-xs w-full flex justify-between">
+                                    <div>{rank[6]?.bestScore} points</div>
+                                    <div className="flex gap-1 items-center">
+                                        <img
+                                            src="assets/point.svg"
+                                            className=""
+                                            alt=""
+                                            width={15}
+                                            height={15}
+                                        />
+                                        <div>{rank[6]?.bestScore} points</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> */}
+                    </>
+                )}
             </div>
             <div className="h-auto w-full flex flex-col justify-center items-center gap-1 relative">
                 <p className="gochi-hand-regular">Doodles Fish Lab ©</p>

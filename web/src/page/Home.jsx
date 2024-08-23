@@ -62,6 +62,8 @@ function Home() {
                 },
             });
 
+            console.log("retrievalUser", retrievalUser);
+
             if (retrievalUser.data.uid) {
                 setUid(retrievalUser.data.uid);
 
