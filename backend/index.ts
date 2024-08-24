@@ -6,7 +6,7 @@ import {
   getUser,
   getUserByAddress,
 } from "./firesbase/user";
-import { getBoard } from "./firesbase/leaderBoard";
+import { getBoard, getInviteBoard } from "./firesbase/leaderBoard";
 import cors from "cors";
 import { getWallet, transferJetton, client } from "./ton/index";
 import { serve, setup } from "swagger-ui-express";
@@ -291,6 +291,54 @@ app.get("/leaderboard", async (req, res) => {
   const leaderBoard = await getBoard();
 
   res.send(leaderBoard);
+});
+
+/**
+ * @swagger
+ * /invite-leaderboard:
+ *   get:
+ *     summary: Retrieve the invite leaderboard
+ *     tags:
+ *       - Leaderboard
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved invite leaderboard
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   uid:
+ *                     type: string
+ *                   user:
+ *                     type: object
+ *                     properties:
+ *                       address:
+ *                         type: string
+ *                       token:
+ *                         type: number
+ *                       bestScore:
+ *                         type: number
+ *                       invitee:
+ *                         type: array
+ *                         items:
+ *                           type: number
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
+app.get("/invite-leaderboard", async (req, res) => {
+  const inviteLeaderBoard = await getInviteBoard();
+
+  res.send(inviteLeaderBoard);
 });
 
 /**
