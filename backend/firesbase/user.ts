@@ -10,7 +10,7 @@ import {
   doc,
 } from "firebase/firestore";
 
-type User = {
+export type User = {
   address: string;
   token: number;
   bestScore: number;
