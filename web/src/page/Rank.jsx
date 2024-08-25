@@ -18,18 +18,6 @@ function Rank() {
         return `${start}...${end}`;
     };
 
-    const formatEightAddress = (address) => {
-        // Ensure the address has at least 8 characters
-        if (address.length <= 20) {
-            return address;
-        }
-
-        const start = address.slice(0, 8); // First four characters
-        const end = address.slice(-8); // Last four characters
-
-        return `${start}...${end}`;
-    };
-
     useEffect(() => {
         async function fetchRank() {
             const getUserRanking = await axios.get(`/leaderboard`);
@@ -134,20 +122,24 @@ function Rank() {
                         <div className="absolute top-[8rem] -left-4 p-2 w-40 h-8">
                             <div className="w-full flex flex-col justify-center items-center gap-1">
                                 <div className="text-[0.5rem]">
-                                    {formatAddress(rank[1].uid)}
+                                    {rank.length > 1 &&
+                                        formatAddress(rank[1].uid)}
                                 </div>
                                 <div className="text-[0.5rem] flex justify-start">
-                                    {rank[1].bestScore} points
+                                    {rank.length > 1 && rank[1].bestScore}{" "}
+                                    points
                                 </div>
                             </div>
                         </div>
                         <div className="absolute top-[9.3rem] -right-5 p-2 w-40 h-10">
                             <div className="w-full flex flex-col justify-start items-center gap-1">
                                 <div className="text-[0.5rem]">
-                                    {formatAddress(rank[2].uid)}
+                                    {rank.length > 2 &&
+                                        formatAddress(rank[2].uid)}
                                 </div>
                                 <div className="text-[0.5rem] flex justify-start">
-                                    {rank[2].bestScore} points
+                                    {rank.length > 2 && rank[2].bestScore}{" "}
+                                    points
                                 </div>
                             </div>
                         </div>
@@ -159,10 +151,14 @@ function Rank() {
                         <div className="absolute top-[16.5rem] left-24 p-2 w-40 h-14 ruda-regular">
                             <div className="w-full flex flex-col justify-center items-center gap-2">
                                 <div className="text-xs font-bold w-full flex justify-start">
-                                    {formatAddress(rank[3].uid)}
+                                    {rank.length > 3 &&
+                                        formatAddress(rank[3].uid)}
                                 </div>
                                 <div className="text-xs w-full flex justify-between">
-                                    <div>{rank[3].bestScore} points</div>
+                                    <div>
+                                        {rank.length > 3 && rank[3].bestScore}{" "}
+                                        points
+                                    </div>
                                     <div className="flex gap-1 items-center">
                                         <img
                                             src="assets/point.svg"
@@ -171,7 +167,10 @@ function Rank() {
                                             width={15}
                                             height={15}
                                         />
-                                        <div>{rank[3].bestScore} points</div>
+                                        <div>
+                                            {rank.length > 3 && rank[3].token}{" "}
+                                            Token
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -179,10 +178,14 @@ function Rank() {
                         <div className="absolute top-[20.8rem] left-24 p-2 w-40 h-14 ruda-regular">
                             <div className="w-full flex flex-col justify-center items-center gap-2">
                                 <div className="text-xs font-bold w-full flex justify-start">
-                                    {formatAddress(rank[4].uid)}
+                                    {rank.length > 4 &&
+                                        formatAddress(rank[4].uid)}
                                 </div>
                                 <div className="text-xs w-full flex justify-between">
-                                    <div>{rank[4].bestScore} points</div>
+                                    <div>
+                                        {rank.length > 4 && rank[4].bestScore}{" "}
+                                        points
+                                    </div>
                                     <div className="flex gap-1 items-center">
                                         <img
                                             src="assets/point.svg"
@@ -191,18 +194,25 @@ function Rank() {
                                             width={15}
                                             height={15}
                                         />
-                                        <div>{rank[4].bestScore} points</div>
+                                        <div>
+                                            {rank.length > 4 && rank[4].token}{" "}
+                                            Token
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="absolute top-[24.8rem] left-24 p-2 w-40 h-14">
+                        <div className="absolute top-[24.8rem] left-24 p-2 w-40 h-14 ruda-regular">
                             <div className="w-full flex flex-col justify-center items-center gap-2">
                                 <div className="text-xs font-bold w-full flex justify-start">
-                                    {formatAddress(rank[5].uid)}
+                                    {rank.length > 5 &&
+                                        formatAddress(rank[5].uid)}
                                 </div>
                                 <div className="text-xs w-full flex justify-between">
-                                    <div>{rank[5].bestScore} points</div>
+                                    <div>
+                                        {rank.length > 5 && rank[5].bestScore}{" "}
+                                        points
+                                    </div>
                                     <div className="flex gap-1 items-center">
                                         <img
                                             src="assets/point.svg"
@@ -211,31 +221,45 @@ function Rank() {
                                             width={15}
                                             height={15}
                                         />
-                                        <div>{rank[5].bestScore} points</div>
+                                        <div>
+                                            {rank.length > 5 && rank[5].token}{" "}
+                                            Token
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="absolute top-[28.8rem] left-24 p-2 w-40 h-14">
-                            <div className="w-full flex flex-col justify-center items-center gap-2">
-                                <div className="text-xs font-bold w-full flex justify-start">
-                                    {formatAddress(rank[6]?.uid)}
-                                </div>
-                                <div className="text-xs w-full flex justify-between">
-                                    <div>{rank[6]?.bestScore} points</div>
-                                    <div className="flex gap-1 items-center">
-                                        <img
-                                            src="assets/point.svg"
-                                            className=""
-                                            alt=""
-                                            width={15}
-                                            height={15}
-                                        />
-                                        <div>{rank[6]?.bestScore} points</div>
+                        <div className="absolute top-[28.8rem] left-24 p-2 w-40 h-14 ruda-regular">
+                            {rank.length > 6 && (
+                                <div className="w-full flex flex-col justify-center items-center gap-2">
+                                    <div className="text-xs font-bold w-full flex justify-start">
+                                        {rank.length > 6 &&
+                                            formatAddress(rank[6].uid)}
+                                    </div>
+                                    <div className="text-xs w-full flex justify-between">
+                                        <div>
+                                            {rank.length > 6 &&
+                                                rank[6].bestScore}{" "}
+                                            points
+                                        </div>
+                                        <div className="flex gap-1 items-center">
+                                            <img
+                                                src="assets/point.svg"
+                                                className=""
+                                                alt=""
+                                                width={15}
+                                                height={15}
+                                            />
+                                            <div>
+                                                {rank.length > 6 &&
+                                                    rank[6].token}{" "}
+                                                Token
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> */}
+                            )}
+                        </div>
                     </>
                 )}
             </div>

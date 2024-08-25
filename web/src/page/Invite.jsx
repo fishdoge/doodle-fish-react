@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useStore from "../data/store"; // Update with the correct path to your Zustand store
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:3000";
 
 function Invite() {
     // const [copied, setCopied] = useState(false);
@@ -11,6 +13,31 @@ function Invite() {
     //     "Https://t.me/doodlesfish_bot?star=er_38u47843",
     // );
     const [copied, setCopied] = useState(false);
+    const [inviteRank, setInviteRank] = useState(false);
+
+    const formatEightAddress = (address) => {
+        // Ensure the address has at least 8 characters
+        if (address.length <= 20) {
+            return address;
+        }
+
+        const start = address.slice(0, 8); // First four characters
+        const end = address.slice(-8); // Last four characters
+
+        return `${start}...${end}`;
+    };
+
+    useEffect(() => {
+        async function fetchRank() {
+            const getUserInviteRanking = await axios.get(`/invite-leaderboard`);
+
+            console.log(getUserInviteRanking.data[0].user.address);
+
+            setInviteRank(getUserInviteRanking.data);
+        }
+
+        fetchRank();
+    }, []);
 
     return (
         <div
@@ -35,48 +62,28 @@ function Invite() {
                     </div>
                 </div>
                 <div className="h-80 w-full bg-white rounded-md border border-black flex flex-col justify-center items-center gap-5 gochi-hand-regular">
-                    <div className="flex justify-between w-full px-5  text-lg">
-                        <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div>
-                            <div className=" text-lg">8d3Zd83......2870d83</div>
-                        </div>
-                        <div>no.4</div>
-                    </div>
-                    <div className="flex justify-between w-full px-5  text-lg">
-                        <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div>
-                            <div className=" text-lg">8d3Zd83......2870d83</div>
-                        </div>
-                        <div>no.4</div>
-                    </div>
-                    <div className="flex justify-between w-full px-5  text-lg">
-                        <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div>
-                            <div className=" text-lg">8d3Zd83......2870d83</div>
-                        </div>
-                        <div>no.4</div>
-                    </div>
-                    <div className="flex justify-between w-full px-5  text-lg">
-                        <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div>
-                            <div className=" text-lg">8d3Zd83......2870d83</div>
-                        </div>
-                        <div>no.4</div>
-                    </div>
-                    <div className="flex justify-between w-full px-5  text-lg">
-                        <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div>
-                            <div className=" text-lg">8d3Zd83......2870d83</div>
-                        </div>
-                        <div>no.4</div>
-                    </div>
-                    <div className="flex justify-between w-full px-5  text-lg">
-                        <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 bg-[#F2EEEE] rounded-full"></div>
-                            <div className=" text-lg">8d3Zd83......2870d83</div>
-                        </div>
-                        <div>no.4</div>
-                    </div>
+                    {inviteRank.length > 0 &&
+                        inviteRank.slice(0, 6).map((item, index) => (
+                            <div
+                                key={index}
+                                className="flex justify-between w-full px-5 text-lg"
+                            >
+                                <div className="flex items-center gap-2">
+                                    <div className="w-5 h-5 bg-[#F2EEEE] rounded-full">
+                                        <img
+                                            src="assets/rankFish.svg"
+                                            width={20}
+                                            height={20}
+                                            alt=""
+                                        />
+                                    </div>
+                                    <div className="text-lg">
+                                        {formatEightAddress(item.user.address)}
+                                    </div>
+                                </div>
+                                <div>no.{index + 1}</div>
+                            </div>
+                        ))}
                 </div>
             </div>
             <div className="h-auto w-full flex flex-col justify-center items-center gap-1 relative">

@@ -105,26 +105,26 @@ function Home() {
             createUserAndGenerateInvite(userFriendlyAddress);
         }
 
-        async function fetchUserBalance() {
-            try {
-                const response = await axios.get("/user/balance", {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Cache-Control": "no-cache", // Prevent caching
-                        Pragma: "no-cache", // HTTP/1.0 backward compatibility
-                        Expires: "0", // Forces the browser to treat the response as stale
-                    },
-                });
+        // async function fetchUserBalance() {
+        //     try {
+        //         const response = await axios.get("/user/balance", {
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //                 "Cache-Control": "no-cache", // Prevent caching
+        //                 Pragma: "no-cache", // HTTP/1.0 backward compatibility
+        //                 Expires: "0", // Forces the browser to treat the response as stale
+        //             },
+        //         });
 
-                console.log("User balance data:", response.data);
-                return response.data;
-            } catch (error) {
-                console.error("Error fetching user balance:", error);
-                throw error;
-            }
-        }
+        //         console.log("User balance data:", response.data);
+        //         return response.data;
+        //     } catch (error) {
+        //         console.error("Error fetching user balance:", error);
+        //         throw error;
+        //     }
+        // }
 
-        fetchUserBalance();
+        // fetchUserBalance();
     }, [userFriendlyAddress]);
 
     async function disConnect() {
