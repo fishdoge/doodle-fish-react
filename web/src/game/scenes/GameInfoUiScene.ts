@@ -100,7 +100,7 @@ export default class GameInfoUiScene extends Phaser.Scene {
     const { width, height } = this.cameras.main
 
     this.gameTitle = this.add
-      .text(width / 2, height / 2 + 100, 'Doodle FISH', {
+      .text(width / 2, height / 2 + 60, 'Doodle FISH', {
         fontFamily: constants.FONT.FAMILY,
         fontSize: '60px',
         color: constants.COLORS.DEFAULT.SPIKE,
@@ -143,10 +143,10 @@ export default class GameInfoUiScene extends Phaser.Scene {
 
     const roe = this.localStorageData.get('roe') as number
 
-    this.add.image(width / 2 + 100, height - 500, 'roe', 'roe_1')
+    this.add.image(width / 2 + 100, height - 560, 'token', 'roe_1')
 
     this.roeText = this.add
-      .text(width / 2 - 100, height - 500, "+" + String(roe), {
+      .text(width / 2 - 100, height - 560, "+" + String(roe), {
         fontFamily: constants.FONT.FAMILY,
         fontSize: '72px',
         color: '#FC4100',

@@ -28,7 +28,7 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   private startGameEvent() {
-    const bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 + 300, 'startBtn').setInteractive();
+    const bg = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2 + 220, 'startBtn').setInteractive();
     bg.once('pointerup', function () {
 
         this.scene.pause()
@@ -83,12 +83,12 @@ export default class MainMenuScene extends Phaser.Scene {
     const selectFish = localStorageData.get('selectFish') as string
 
     this.playerSkin = this.add
-      .image(width / 2, height / 2, 'player')
+      .image(width / 2, height / 2 - 200, 'player')
       .setScale(1)
 
     this.add.tween({
       targets: this.playerSkin,
-      y: height / 2 + 70,
+      y: height / 2 - 80,
       duration: 700,
       repeat: -1,
       yoyo: true,

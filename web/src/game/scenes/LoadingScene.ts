@@ -88,6 +88,7 @@ export default class LoadingScene extends Phaser.Scene {
     this.load.image('player', 'spritesheets/newfish.png')
     this.load.image('BG', 'sprites/background.png')
     this.load.image('startBtn', 'sprites/startBtn.png')
+    this.load.image('token', 'sprites/token.png')
 
     this.load.audioSprite('sfx', 'sfx/sfxSprite.json', 'sfx/sfxSprite.mp3')
   }

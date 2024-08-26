@@ -260,7 +260,7 @@ function Home() {
                                 height={20}
                             />
                             <div className="flex flex-col justify-center items-center text-2xl">
-                                <p>Doodles Fish</p>
+                                <p>Doodles 1 Fish</p>
                                 {/* <p></p> */}
                             </div>
                         </div>
