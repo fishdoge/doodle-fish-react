@@ -263,7 +263,7 @@ function Rank() {
                     </>
                 )}
             </div>
-            <div className="h-auto w-full flex flex-col justify-center items-center gap-1 relative">
+            <div className="h-auto w-full flex flex-col justify-center items-center gap-1">
                 <p className="gochi-hand-regular">Doodles Fish Lab ©</p>
                 <div className="w-full flex justify-center items-center gap-8">
                     <div className="h-10 w-10 border-black border-2 border-b-8 bg-white rounded-lg flex justify-center items-center gap-2">
@@ -309,14 +309,14 @@ function Rank() {
 
                 <img
                     src="assets/seaweed4-1.svg"
-                    className="absolute -bottom-10 left-5"
+                    className="absolute bottom-0 left-0"
                     alt=""
                     width={50}
                     height={50}
                 />
                 <img
                     src="assets/seaweed4-2.svg"
-                    className="absolute -bottom-10 right-0"
+                    className="absolute bottom-0 right-0"
                     alt=""
                     width={50}
                     height={50}
