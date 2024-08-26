@@ -7,6 +7,11 @@ type LeaderBoardData = {
   bestScore: number;
 };
 
+type TokenLeaderBoardData = {
+  uid: string;
+  token: number;
+};
+
 export async function getBoard() {
   const leaderBoard: LeaderBoardData[] = [];
 
@@ -54,3 +59,29 @@ export async function getInviteBoard() {
 
   return inviteLeaderBoard;
 }
+
+export async function getTokenRewardBoard(){
+  const tokenRewardBoard: TokenLeaderBoardData[] = [];
+
+  const usersRef = collection(database, "doodlePlayer");
+  const q = query(usersRef, orderBy("token", "desc"));
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) console.log("Empty!!");
+
+  querySnapshot.forEach((doc) => {
+    const data = {
+      uid: doc.id,
+      token: doc.data().token as number,
+    };
+
+    tokenRewardBoard.push(data);
+  });
+
+  return tokenRewardBoard;
+}
+
+
+
+
+
