@@ -2,8 +2,8 @@ const DEBUG = false
 
 const SCALE = 1
 
-const width = 1080
-const height = 1920
+const width = 1440
+const height = 2450
 
 const constants = {
   SCALE,

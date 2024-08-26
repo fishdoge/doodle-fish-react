@@ -143,10 +143,10 @@ export default class GameInfoUiScene extends Phaser.Scene {
 
     const roe = this.localStorageData.get('roe') as number
 
-    this.add.image(width / 2 + 100, height - 560, 'token', 'roe_1')
+    this.add.image(width / 2 + 100, height - 700, 'token', 'roe_1')
 
     this.roeText = this.add
-      .text(width / 2 - 100, height - 560, "+" + String(roe), {
+      .text(width / 2 - 100, height - 700, "+" + String(roe), {
         fontFamily: constants.FONT.FAMILY,
         fontSize: '72px',
         color: '#FC4100',

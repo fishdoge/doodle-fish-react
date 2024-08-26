@@ -32,7 +32,7 @@ export default class GameFieldScene extends Phaser.Scene {
     const { width, height } = this.cameras.main
 
     this.matter.world.setBounds(0, 0, width, height)
-    this.add.image(-10, 0, 'BG').setScale(1.2, 1).setOrigin(0, 0);
+    this.add.image(-10, 0, 'BG').setScale(1.5, 1.3).setOrigin(0, 0);
 
     this.addScoreText()
 
@@ -123,7 +123,7 @@ export default class GameFieldScene extends Phaser.Scene {
     this.wallLeft = new Wall(this, {
       x: 5,
       y: height / 2,
-      width: 50,
+      width: 250,
       height,
       label: 'wallLeft',
       alpha: 0,
