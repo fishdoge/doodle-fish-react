@@ -89,14 +89,16 @@ function Invite() {
             <div className="h-auto w-full flex flex-col justify-center items-center gap-1">
                 <p className="gochi-hand-regular">Doodles Fish Lab ©</p>
                 <div className="w-full flex justify-center items-center gap-8">
-                    <div className="h-10 w-10 border-black border-2 border-b-8 bg-white rounded-lg flex justify-center items-center gap-2">
-                        <img
-                            src="assets/share.svg"
-                            alt=""
-                            width={20}
-                            height={20}
-                        />
-                    </div>
+                    <Link to="/">
+                        <div className="h-10 w-10 border-black border-2 border-b-8 bg-white rounded-lg flex justify-center items-center gap-2">
+                            <img
+                                src="assets/share.svg"
+                                alt=""
+                                width={20}
+                                height={20}
+                            />
+                        </div>
+                    </Link>
 
                     <Link to="/ranking">
                         <div className="h-10 w-10 border-black border-2 border-b-8 bg-white rounded-lg flex justify-center items-center gap-2">
