@@ -10,7 +10,8 @@ import { Link } from "react-router-dom";
 import useStore from "../data/store"; // Update with the correct path to your Zustand store
 
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL =
+    "https://doodle-fish-api-dot-hongwang-gcp.de.r.appspot.com/";
 
 import Game from "./Game";
 
@@ -52,7 +53,16 @@ function Home() {
                     `/user/generate-invite?id=${retrievalUser.data.uid}`,
                 );
 
-                setInviteLink(getUserInviteId.data.inviteLink);
+                // Assuming the invite link is in getUserInviteId.data.inviteLink
+                const originalLink = getUserInviteId.data.inviteLink;
+
+                // Replace the base URL with the new one
+                const updatedLink = originalLink.replace(
+                    "http://localhost:3000",
+                    "https://t.me/DoodleFish_bot",
+                );
+
+                setInviteLink(updatedLink);
             } else {
                 // Step 1: Create User
                 const createUserResponse = await axios.post("/user", {
@@ -69,7 +79,16 @@ function Home() {
                     `/user/generate-invite?id=${uid}`,
                 );
 
-                setInviteLink(getUserInviteId.data.inviteLink);
+                // Assuming the invite link is in getUserInviteId.data.inviteLink
+                const originalLink = getUserInviteId.data.inviteLink;
+
+                // Replace the base URL with the new one
+                const updatedLink = originalLink.replace(
+                    "http://localhost:3000",
+                    "https://t.me/DoodleFish_bot",
+                );
+
+                setInviteLink(updatedLink);
             }
         } catch (error) {
             console.error("Error creating user or generating invite: ", error);

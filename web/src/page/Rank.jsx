@@ -109,7 +109,7 @@ function Rank() {
 
                         {rank.length > 0 && (
                             <>
-                                <div className="absolute top-[6.6rem] left-12 p-2 w-40 h-8">
+                                <div className="absolute top-[6.8rem] left-12 p-2 w-40 h-8">
                                     <div className="w-full flex flex-col justify-center items-center">
                                         <div className="text-[0.5rem]">
                                             {formatAddress(rank[0].uid)}
@@ -148,7 +148,7 @@ function Rank() {
 
                         {rank.length > 0 && (
                             <>
-                                <div className="absolute top-[16.8rem] left-20 p-2 w-40 h-14 ruda-regular">
+                                <div className="absolute top-[17.2rem] left-20 p-2 w-40 h-14 ruda-regular">
                                     <div className="w-full flex flex-col justify-center items-center gap-2">
                                         <div className="text-xs font-bold w-full flex justify-start">
                                             {rank.length > 3 &&
@@ -172,7 +172,7 @@ function Rank() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="absolute top-[20.5rem] left-20 p-2 w-40 h-14 ruda-regular">
+                                <div className="absolute top-[20.8rem] left-20 p-2 w-40 h-14 ruda-regular">
                                     <div className="w-full flex flex-col justify-center items-center gap-2">
                                         <div className="text-xs font-bold w-full flex justify-start">
                                             {rank.length > 4 &&
@@ -196,7 +196,7 @@ function Rank() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="absolute top-[24.2rem] left-20 p-2 w-40 h-14 ruda-regular">
+                                <div className="absolute top-[24.4rem] left-20 p-2 w-40 h-14 ruda-regular">
                                     <div className="w-full flex flex-col justify-center items-center gap-2">
                                         <div className="text-xs font-bold w-full flex justify-start">
                                             {rank.length > 5 &&
