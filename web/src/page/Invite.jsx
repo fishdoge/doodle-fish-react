@@ -45,7 +45,7 @@ function Invite() {
             className="bg-[#C3F1F5] h-full flex flex-col justify-center items-center"
         >
             <div className=" gochi-hand-regular text-3xl pb-2">Invite</div>
-            <div className="h-[77%] flex flex-col justify-start relative pt-2 gap-5">
+            <div className="h-[77%] w-[80%] flex flex-col justify-start relative pt-2 gap-5">
                 <div className="w-full h-40 flex flex-col justify-center items-center border border-black rounded-md bg-[#9DE7EF] gap-5 gochi-hand-regular">
                     <div className="w-[20%] flex justify-center items-center ">
                         {inviteLink}
