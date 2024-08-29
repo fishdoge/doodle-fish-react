@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL =
+    "https://doodle-fish-api-dot-hongwang-gcp.de.r.appspot.com/";
 
 function Rank() {
     const [rank, setRank] = useState([]);
@@ -22,35 +23,11 @@ function Rank() {
         async function fetchRank() {
             const getUserRanking = await axios.get(`/leaderboard`);
 
-            console.log(getUserRanking.data);
-
             setRank(getUserRanking.data);
         }
 
         fetchRank();
     }, []);
-
-    const positions = [
-        { top: "4.6rem", left: "16", width: "40", height: "8" },
-        { top: "8rem", left: "-4", width: "40", height: "8" },
-        { top: "9.3rem", right: "-5", width: "40", height: "10" },
-        {
-            top: "16.5rem",
-            left: "24",
-            width: "40",
-            height: "14",
-            extraClass: "ruda-regular",
-        },
-        {
-            top: "20.8rem",
-            left: "24",
-            width: "40",
-            height: "14",
-            extraClass: "ruda-regular",
-        },
-        { top: "24.8rem", left: "24", width: "40", height: "14" },
-        { top: "28.8rem", left: "24", width: "40", height: "14" },
-    ];
 
     const [activeTab, setActiveTab] = useState(0);
 

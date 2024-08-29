@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import useStore from "../data/store"; // Update with the correct path to your Zustand store
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL =
+    "https://doodle-fish-api-dot-hongwang-gcp.de.r.appspot.com/";
 
 function Invite() {
     // const [copied, setCopied] = useState(false);
@@ -12,7 +13,7 @@ function Invite() {
     // const [text, _setText] = useState(
     //     "Https://t.me/doodlesfish_bot?star=er_38u47843",
     // );
-    const [copied, setCopied] = useState(false);
+    const [_copied, setCopied] = useState(false);
     const [inviteRank, setInviteRank] = useState(false);
 
     const formatEightAddress = (address) => {

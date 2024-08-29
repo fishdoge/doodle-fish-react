@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { PhaserGame } from "../game/PhaserGame";
-import { TonConnectButton } from "@tonconnect/ui-react";
+import { useEffect } from "react";
 import {
     useTonAddress,
     useTonWallet,
@@ -15,32 +13,16 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3000";
 
 import Game from "./Game";
-// import TonIcon from '../assets/tonIcon.svg';
+
 function Home() {
     //  References to the PhaserGame component (game and scene are exposed)
     // const phaserRef = useRef();
     const userFriendlyAddress = useTonAddress();
-    const [userId, setUserId] = useState(null);
-    const [inviteUrl, setInviteUrl] = useState("");
     const wallet = useTonWallet();
-    const [tonConnectUI, setOptions] = useTonConnectUI();
-    const { state, open, close } = useTonConnectModal();
-    const rawAddress = useTonAddress(false);
-    const { uid, inviteLink, setUid, setInviteLink } = useStore();
-
-    console.log("tonConnectUI", tonConnectUI);
-    console.log(state, open, close);
-    // Event emitted from the PhaserGame component
-    const currentScene = (scene) => {
-        console.log(scene);
-    };
-
-    console.log(import.meta.env.VITE_SOME_KEY);
-
-    // const tonClient = new TonClient({
-    //     endpoint: "https://testnet.toncenter.com/api/v2/jsonRPC", // Replace with your preferred endpoint
-    //     apiKey: process.env.TONCENTER_API_KEY,
-    //   });
+    const [tonConnectUI] = useTonConnectUI();
+    const { open } = useTonConnectModal();
+    // const rawAddress = useTonAddress(false);
+    const { setUid, setInviteLink } = useStore();
 
     const formatAddress = (address) => {
         // Ensure the address has at least 8 characters
@@ -61,8 +43,6 @@ function Home() {
                     address: walletAddress,
                 },
             });
-
-            console.log("retrievalUser", retrievalUser);
 
             if (retrievalUser.data.uid) {
                 setUid(retrievalUser.data.uid);
@@ -91,7 +71,6 @@ function Home() {
 
                 setInviteLink(getUserInviteId.data.inviteLink);
             }
-            console.log("userIdss", userId);
         } catch (error) {
             console.error("Error creating user or generating invite: ", error);
         }
@@ -99,40 +78,15 @@ function Home() {
 
     useEffect(() => {
         // Query the balance
-        console.log("userFriendlyAddress", userFriendlyAddress);
 
         if (userFriendlyAddress) {
             createUserAndGenerateInvite(userFriendlyAddress);
         }
-
-        // async function fetchUserBalance() {
-        //     try {
-        //         const response = await axios.get("/user/balance", {
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //                 "Cache-Control": "no-cache", // Prevent caching
-        //                 Pragma: "no-cache", // HTTP/1.0 backward compatibility
-        //                 Expires: "0", // Forces the browser to treat the response as stale
-        //             },
-        //         });
-
-        //         console.log("User balance data:", response.data);
-        //         return response.data;
-        //     } catch (error) {
-        //         console.error("Error fetching user balance:", error);
-        //         throw error;
-        //     }
-        // }
-
-        // fetchUserBalance();
     }, [userFriendlyAddress]);
 
     async function disConnect() {
         await tonConnectUI.disconnect();
     }
-
-    console.log("userId", userId);
-    console.log("inviteUrl", inviteUrl);
 
     return (
         <div

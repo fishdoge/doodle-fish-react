@@ -7,7 +7,7 @@ function Game() {
 
     // Event emitted from the PhaserGame component
     const currentScene = (scene) => {
-        console.log(scene);
+        // console.log(scene);
     };
 
     return <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />;
