@@ -5,10 +5,14 @@ import {
   updateInvitee,
   getUser,
   getUserByAddress,
-} from "./firesbase/user";
-import { getBoard, getInviteBoard, getTokenRewardBoard } from "./firesbase/leaderBoard";
+} from "../firesbase/user";
+import {
+  getBoard,
+  getInviteBoard,
+  getTokenRewardBoard,
+} from "../firesbase/leaderBoard";
 import cors from "cors";
-import { getWallet, transferJetton, client } from "./ton/index";
+import { getWallet, transferJetton, client } from "../ton/index";
 import { serve, setup } from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import { Address } from "@ton/core";
@@ -33,9 +37,8 @@ const options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 
-
 app.get("/", async (req, res) => {
-    return res.send("API start");
+  return res.send("API start");
 });
 
 /**
