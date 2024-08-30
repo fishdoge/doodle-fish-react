@@ -10,8 +10,7 @@ import { Link } from "react-router-dom";
 import useStore from "../data/store"; // Update with the correct path to your Zustand store
 
 import axios from "axios";
-axios.defaults.baseURL =
-    "https://doodle-fish-api-dot-hongwang-gcp.de.r.appspot.com/";
+axios.defaults.baseURL = "https://doodle-fish-backend.vercel.app/";
 
 import Game from "./Game";
 
