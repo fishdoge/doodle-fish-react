@@ -1,31 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
     useTonAddress,
     useTonWallet,
     useTonConnectUI,
 } from "@tonconnect/ui-react";
 import { useTonConnectModal } from "@tonconnect/ui-react";
-// import { TonClient } from "ton";
-import { Link } from "react-router-dom";
-import useStore from "../data/store"; // Update with the correct path to your Zustand store
-
 import axios from "axios";
-axios.defaults.baseURL = "https://doodle-fish-backend.vercel.app/";
 
 import Game from "./Game";
+import useStore from "../data/store";
+axios.defaults.baseURL = "https://doodle-fish-backend.vercel.app/";
 
 function Home() {
-    //  References to the PhaserGame component (game and scene are exposed)
-    // const phaserRef = useRef();
     const userFriendlyAddress = useTonAddress();
     const wallet = useTonWallet();
     const [tonConnectUI] = useTonConnectUI();
     const { open } = useTonConnectModal();
-    // const rawAddress = useTonAddress(false);
     const { setUid, setInviteLink } = useStore();
+    const [balance, setBalance] = useState(0);
 
     const formatAddress = (address) => {
-        // Ensure the address has at least 8 characters
         if (address.length <= 8) {
             return address;
         }
@@ -99,6 +94,28 @@ function Home() {
 
         if (userFriendlyAddress) {
             createUserAndGenerateInvite(userFriendlyAddress);
+
+            const fetchJettonInfo = async () => {
+                const url = `https://testnet.tonapi.io/v2/accounts/${userFriendlyAddress}/jettons/${import.meta.env.VITE_JETTON_MASTER_ADDRESS}?currencies=ton,usd,rub`;
+
+                try {
+                    const response = await axios.get(url, {
+                        headers: {
+                            Accept: "application/json",
+                        },
+                    });
+
+                    setBalance(
+                        response?.data?.balance.length !== 0
+                            ? response?.data?.balance
+                            : 0,
+                    );
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+
+            fetchJettonInfo();
         }
     }, [userFriendlyAddress]);
 
@@ -121,7 +138,7 @@ function Home() {
                                 width={30}
                                 height={30}
                             />
-                            <p className="w-2/3 text-2xl">{"$ 375"}</p>
+                            <p className="w-2/3 text-xl">$ {balance}</p>
                         </div>
                         <div
                             onClick={disConnect}
