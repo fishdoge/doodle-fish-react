@@ -57,7 +57,7 @@ export default class GameFieldScene extends Phaser.Scene {
   private outerFrame(){
     const { width, height } = this.cameras.main
     const borderGraphics = this.add.graphics();
-    borderGraphics.lineStyle(25, 0x000000, 1);  // 宽度10，颜色黑色
+    borderGraphics.lineStyle(35, 0x000000, 1);  // 宽度10，颜色黑色
     borderGraphics.strokeRect(0, 0, width, height);
   }
 
