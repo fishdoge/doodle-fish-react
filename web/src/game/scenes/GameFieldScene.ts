@@ -29,10 +29,14 @@ export default class GameFieldScene extends Phaser.Scene {
   }
 
   create() {
+    
     const { width, height } = this.cameras.main
-
+    
     this.matter.world.setBounds(0, 0, width, height)
     this.add.image(-10, 0, 'BG').setScale(1.5, 1.3).setOrigin(0, 0);
+    
+    
+    this.outerFrame()
 
     this.addScoreText()
 
@@ -47,6 +51,14 @@ export default class GameFieldScene extends Phaser.Scene {
     this.addChangeSkinEvent()
 
     this.startGame()
+  }
+
+
+  private outerFrame(){
+    const { width, height } = this.cameras.main
+    const borderGraphics = this.add.graphics();
+    borderGraphics.lineStyle(25, 0x000000, 1);  // 宽度10，颜色黑色
+    borderGraphics.strokeRect(0, 0, width, height);
   }
 
   private addPlayer() {
@@ -122,8 +134,8 @@ export default class GameFieldScene extends Phaser.Scene {
 
     this.wallLeft = new Wall(this, {
       x: 5,
-      y: height / 2,
-      width: 250,
+      y: height / 2 ,
+      width: 100 ,
       height,
       label: 'wallLeft',
       alpha: 0,
@@ -132,7 +144,7 @@ export default class GameFieldScene extends Phaser.Scene {
     this.wallRight = new Wall(this, {
       x: width - 5,
       y: height / 2,
-      width: 50,
+      width: 100,
       height,
       label: 'wallRight',
       alpha: 0,
@@ -143,8 +155,8 @@ export default class GameFieldScene extends Phaser.Scene {
 
     this.wallTop = new Wall(this, {
       x: width / 2 ,
-      y: wallHeight / 5,
-      width:width + 150,
+      y: wallHeight / 5 + 12,
+      width:width - 25,
       height: wallHeight / 2.5,
       label: 'wallTop',
       color: 0x80_80_80,
@@ -152,8 +164,8 @@ export default class GameFieldScene extends Phaser.Scene {
     })
     this.wallBottom = new Wall(this, {
       x: width / 2,
-      y: height - wallHeight / 2,
-      width,
+      y: height - wallHeight / 2 - 12,
+      width:width - 25,
       height: wallHeight,
       label: 'wallBottom',
       color: 0x80_80_80,
@@ -166,10 +178,10 @@ export default class GameFieldScene extends Phaser.Scene {
     const wallHeight = constants.WALL.HEIGHT
 
     this.spikeGroupLeft = new SpikeGroup(this, {
-      x: 8,
+      x: 40,
       y: constants.SPIKE.HEIGHT,
       count: 0,
-      maximum: 11,
+      maximum: 10,
       label: 'spike',
       color: 0xcc_cc_cc,
       alpha: 1,
@@ -180,10 +192,10 @@ export default class GameFieldScene extends Phaser.Scene {
     })
 
     this.spikeGroupRight = new SpikeGroup(this, {
-      x: width - 8,
+      x: width - 40,
       y: constants.SPIKE.HEIGHT,
       count: 0,
-      maximum: 11,
+      maximum: 10,
       label: 'spike',
       color: 0xcc_cc_cc,
       alpha: 1,
