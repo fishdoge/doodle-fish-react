@@ -9,7 +9,7 @@ dotenv.config();
 
 
 // 使用環境變數中的 TELEGRAM_TOKEN
-const token ='7400919624:AAHCzpAuHu-vl3jw8fPn-Eq0vPN1wBzPlTs';
+const token ='7258269236:AAEiFCJLrAe3eY88egII6FtmE_4VMj3oaZM';
 
 // 建立一個 bot 實例
 const bot = new TelegramBot(token, { polling: true });
@@ -57,13 +57,13 @@ bot.onText(/\/opengame/, (msg) => {
     const opts = {
         reply_markup: {
             inline_keyboard: [
-                [{text: "Open ton mini game", web_app: {url: "https://doodle-fish-game.vercel.app/"}}]
+                [{text: "Open ton doodle fish mini game", web_app: {url: "https://ton-doodle-fish-react.vercel.app/"}}]
             ]
         }
     };
 
     // 發送帶有 Mini App 按鈕的消息
-    bot.sendMessage(chatId, "Hello! Please open the Mini App below:", opts);
+    bot.sendMessage(chatId, "Hello! Play doodle fist here!", opts);
 });
 
 
