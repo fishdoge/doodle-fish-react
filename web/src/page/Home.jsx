@@ -147,8 +147,8 @@ function Home() {
                             <img
                                 src="icons/tonIcon.svg"
                                 alt=""
-                                width={30}
-                                height={30}
+                                width={25}
+                                height={25}
                             />
                             {formatAddress(userFriendlyAddress)}
                         </div>
