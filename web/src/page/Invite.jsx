@@ -3,8 +3,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useState, useEffect } from "react";
 import useStore from "../data/store"; // Update with the correct path to your Zustand store
 import axios from "axios";
-axios.defaults.baseURL =
-    "https://doodle-fish-api-dot-hongwang-gcp.de.r.appspot.com/";
+axios.defaults.baseURL = "https://doodle-fish-backend.vercel.app/";
 
 function Invite() {
     // const [copied, setCopied] = useState(false);
