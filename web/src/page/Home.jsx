@@ -90,32 +90,44 @@ function Home() {
     };
 
     useEffect(() => {
+        const token = localStorage.getItem("local-storage-scene.roe");
+        let number = token.match(/\d+/)[0];
+        setBalance(number ? number : 0);
+    }, []);
+
+    window.addEventListener("storage", () => {
+        const token = localStorage.getItem("local-storage-scene.roe");
+        let number = token.match(/\d+/)[0];
+        setBalance(number ? number : 0);
+    });
+
+    useEffect(() => {
         // Query the balance
 
         if (userFriendlyAddress) {
             createUserAndGenerateInvite(userFriendlyAddress);
 
-            const fetchJettonInfo = async () => {
-                const url = `https://testnet.tonapi.io/v2/accounts/${userFriendlyAddress}/jettons/${import.meta.env.VITE_JETTON_MASTER_ADDRESS}?currencies=ton,usd,rub`;
+            // const fetchJettonInfo = async () => {
+            //     const url = `https://testnet.tonapi.io/v2/accounts/${userFriendlyAddress}/jettons/${import.meta.env.VITE_JETTON_MASTER_ADDRESS}?currencies=ton,usd,rub`;
 
-                try {
-                    const response = await axios.get(url, {
-                        headers: {
-                            Accept: "application/json",
-                        },
-                    });
+            //     try {
+            //         const response = await axios.get(url, {
+            //             headers: {
+            //                 Accept: "application/json",
+            //             },
+            //         });
 
-                    setBalance(
-                        response?.data?.balance.length !== 0
-                            ? response?.data?.balance
-                            : 0,
-                    );
-                } catch (err) {
-                    console.error(err);
-                }
-            };
+            //         setBalance(
+            //             response?.data?.balance.length !== 0
+            //                 ? response?.data?.balance
+            //                 : 0,
+            //         );
+            //     } catch (err) {
+            //         console.error(err);
+            //     }
+            // };
 
-            fetchJettonInfo();
+            // fetchJettonInfo();
         }
     }, [userFriendlyAddress]);
 

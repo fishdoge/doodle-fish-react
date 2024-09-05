@@ -4,6 +4,8 @@ import RoundRectangleCanvas from 'phaser3-rex-plugins/plugins/roundrectanglecanv
 import LocalStorageData from 'phaser3-rex-plugins/plugins/localstorage-data'
 import getCurrentColor from '../helpers/getCurrentColor'
 import constants from '../constants'
+import axios from "axios";
+// import useStore from "../../data/store"; // Update with the correct path to your Zustand store
 
 type GameOverData = {
   score: number
@@ -46,9 +48,12 @@ export default class GameOverScene extends Phaser.Scene {
 
     const bestScore = localStorageData.get('bestScore')
     if (this.score > bestScore) {
+    //   const getUserInviteId = await axios.post(
+    //     `/user/`,
+    // );
       localStorageData.set('bestScore', this.score)
-    }
-  }
+    } 
+  } 
 
   private incGamesPlayedValue() {
     const localStorageScene = this.scene.get(constants.SCENES.LOCAL_STORAGE)
@@ -58,12 +63,46 @@ export default class GameOverScene extends Phaser.Scene {
     localStorageData.inc('gamesPlayed', 1)
   }
 
-  private incRoeValue() {
+  private async incRoeValue() {
     const localStorageScene = this.scene.get(constants.SCENES.LOCAL_STORAGE)
     const localStorageData = localStorageScene.data.get(
       'localStorageData'
     ) as LocalStorageData
     localStorageData.inc('roe', this.roe)
+    console.log(localStorageData.get('roe'))
+    const token = localStorageData.get('roe')
+    const score = localStorageData.get('bestScore')
+    const userData = localStorage.getItem('user-store')
+    
+    // Retrieve the updated roe value
+    window.localStorage.setItem('roe', token)
+    window.dispatchEvent(new Event("storage"));
+    // Check if the data exists
+    if (userData) {
+      // Parse the JSON string to an object
+      const parsedData = JSON.parse(userData);
+
+      // Access the uid property from the parsed object
+      const uid = parsedData.state?.uid;
+
+      try {
+        // Update the backend with the new roe value
+        const updateUserData = await axios.put("/user", {
+          "id": uid,
+          "bestScore": score,
+          "token": token
+        })
+        window.dispatchEvent(new Event("storage"));
+        console.log('User data updated:', updateUserData)
+      } catch (error) {
+        console.error('Failed to update user data:', error)
+      }
+
+    } else {
+      console.log('No user data found in localStorage');
+    }
+
+   
   }
 
   private addBackground() {
