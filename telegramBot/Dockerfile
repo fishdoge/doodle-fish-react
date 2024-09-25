@@ -2,7 +2,7 @@
 FROM node:18
 
 # 設置工作目錄
-WORKDIR //src/
+WORKDIR /src/
 
 # 複製 package.json 和 package-lock.json
 COPY package*.json ./
