@@ -1,5 +1,5 @@
 runtime: nodejs18
-service: service1
+service: telegram-bot
 instance_class: F1
 
 automatic_scaling:
