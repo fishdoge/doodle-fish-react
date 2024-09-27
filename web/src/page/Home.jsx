@@ -303,7 +303,7 @@ function Home() {
                     />
                 </div>
             ) : (
-                <div className="h-auto w-full flex flex-col justify-center items-center gap-1 relative">
+                <div className="h-auto w-full flex flex-col justify-center items-center gap-1">
                     <p className="gochi-hand-regular">Doodles Fish Lab ©</p>
                     <div className="w-full flex justify-center items-center gap-8">
                         <Link to="/">
@@ -351,14 +351,14 @@ function Home() {
 
                     <img
                         src="assets/seaweed2-1.svg"
-                        className="absolute -bottom-10 left-5"
+                        className="absolute bottom-0 left-5"
                         alt=""
                         width={50}
                         height={50}
                     />
                     <img
                         src="assets/seaweed2-2.svg"
-                        className="absolute -bottom-10 right-0"
+                        className="absolute bottom-0 right-0"
                         alt=""
                         width={50}
                         height={50}
