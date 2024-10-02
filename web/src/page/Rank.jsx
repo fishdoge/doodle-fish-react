@@ -86,18 +86,7 @@ function Rank() {
                     width={40}
                     height={40}
                 />
-                {/* <div className="absolute top-7 left-10 rounded-full bg-[#FFFFFF] p-2 w-14 h-14"></div>
-                <div className="absolute -top-5 right-[7rem] rounded-full bg-[#FFFFFF] p-2 w-14 h-14"></div>
-                <div className="absolute top-12 right-7 rounded-full bg-[#FFFFFF] p-2 w-14 h-14"></div> */}
-                {/* <img
-                    src="assets/king.svg"
-                    className="absolute -top-12 right-[8rem]"
-                    alt=""
-                    width={25}
-                    height={25}
-                /> */}
-
-                {activeTab === 0 && (
+                {activeTab === 1 && (
                     <>
                         <img
                             src="assets/pointLayout.svg"
@@ -224,7 +213,7 @@ function Rank() {
                     </>
                 )}
 
-                {activeTab === 1 && (
+                {activeTab === 0 && (
                     <>
                         <img
                             src="assets/rankLayout.svg"
